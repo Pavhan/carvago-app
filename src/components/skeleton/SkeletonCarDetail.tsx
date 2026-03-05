@@ -1,4 +1,4 @@
-export default function SkeletonCarDetail() {
+export function SkeletonCarDetail() {
   return (
     <div className="animate-pulse rounded-2xl bg-white shadow-sm">
       <div className="grid gap-4 md:grid-cols-2">

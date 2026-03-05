@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import MenuItem from '@/components/layout/MenuItem';
+import { MenuItem } from '@/components/layout/MenuItem';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 
-export default function Header() {
+export function Header() {
   return (
     <header className="bg-white sticky py-2 box-shadow">
       <div className="container">

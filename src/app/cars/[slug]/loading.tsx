@@ -1,4 +1,4 @@
-import SkeletonCarDetail from '@/components/skeleton/SkeletonCarDetail';
+import { SkeletonCarDetail } from '@/components/skeleton/SkeletonCarDetail';
 
 export default function Loading() {
   return <SkeletonCarDetail />;

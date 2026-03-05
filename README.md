@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Coding conventions
+
+- Internal components in `src/components/**` use named exports and named imports.
+- Next.js route files (`page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`) use default exports as required by Next.
+- React components prefer `function` declarations; use arrow functions for callbacks/helpers.
+
 ## PostgreSQL + Drizzle ORM setup
 
 Aplikace používá PostgreSQL přes Drizzle ORM.

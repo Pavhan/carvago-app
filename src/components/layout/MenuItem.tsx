@@ -14,7 +14,7 @@ type MenuItemProps = {
   children: string;
 };
 
-export default function MenuItem({ href, children }: MenuItemProps) {
+export function MenuItem({ href, children }: MenuItemProps) {
   const pathname = usePathname();
   const isActive = pathname === href || pathname.startsWith(`${href}/`);
 

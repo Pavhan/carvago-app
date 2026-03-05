@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "@/components/layout/Header";
+import { Header } from "@/components/layout/Header";
 
 const euclidCircularB = localFont({
   src: "../../public/fonts/euclid-circular-b/Euclid-Circular-B-Regular.ttf",

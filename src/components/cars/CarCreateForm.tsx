@@ -12,7 +12,7 @@ import { FormField } from '@/components/form/FormField';
 
 const initialState: CreateCarActionState = {};
 
-export default function CarCreateForm() {
+export function CarCreateForm() {
   const router = useRouter();
   const [state, formAction, isPending] = useActionState(
     createCarAction,
