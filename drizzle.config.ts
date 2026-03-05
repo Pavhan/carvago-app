@@ -1,7 +1,10 @@
 import { defineConfig } from "drizzle-kit";
 
 const connectionString =
-  process.env.DATABASE_URL ?? process.env.POSTGRES_URL ?? "";
+  process.env.DATABASE_URL_UNPOOLED ??
+  process.env.DATABASE_URL ??
+  process.env.POSTGRES_URL ??
+  "";
 
 export default defineConfig({
   out: "./drizzle",
