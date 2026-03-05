@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-export default function SellErrorPage() {
+export default function AppErrorPage() {
   return (
     <div className="container py-10">
       <h2 className="text-2xl font-semibold">Nepodarilo se nacist nabidku.</h2>
