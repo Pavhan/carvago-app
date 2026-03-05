@@ -9,7 +9,7 @@ function loadEnv() {
 
 async function seed() {
   loadEnv();
-  const { db } = await import('./index');
+  const { db } = await import('./db');
   await db.delete(cars);
 
   await db.insert(cars).values([
@@ -56,6 +56,46 @@ async function seed() {
       priceRatingLabel: 'Dobrá cena',
       partnerLabel: 'Ověřený partner',
       equipmentTags: ['Matrix LED', 'Adaptivní tempomat', 'Vyhřívaná sedadla'],
+    },
+    {
+      name: 'Audi Q5 40 TDI quattro S tronic 150 kW',
+      slug: 'audi-q5-40-tdi-quattro-s-tronic-150-kw',
+      imageUrl:
+        'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80',
+      mileageKm: 58200,
+      firstRegistration: '09/2021',
+      powerKw: 150,
+      powerHp: 204,
+      transmission: 'Automat',
+      fuelType: 'Diesel',
+      locationCountry: 'Rakousko',
+      deliveryPriceCzk: 11900,
+      monthlyPaymentCzk: 10490,
+      totalPriceCzk: 979000,
+      vatPriceCzk: 809091,
+      priceRatingLabel: 'Velmi dobrá cena',
+      partnerLabel: 'Ověřený partner',
+      equipmentTags: ['Quattro', 'Virtual Cockpit', 'Apple CarPlay'],
+    },
+    {
+      name: 'Volkswagen ID.4 Pro Performance 150 kW',
+      slug: 'volkswagen-id-4-pro-performance-150-kw',
+      imageUrl:
+        'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=80',
+      mileageKm: 21000,
+      firstRegistration: '02/2023',
+      powerKw: 150,
+      powerHp: 204,
+      transmission: 'Automat',
+      fuelType: 'Elektro',
+      locationCountry: 'Česko',
+      deliveryPriceCzk: 9900,
+      monthlyPaymentCzk: 11290,
+      totalPriceCzk: 1049000,
+      vatPriceCzk: 866942,
+      priceRatingLabel: 'Dobrá cena',
+      partnerLabel: 'Prémiový partner',
+      equipmentTags: ['Tepelné čerpadlo', '360° kamera', 'Nabíjení DC'],
     },
   ]);
 

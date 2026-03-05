@@ -1,8 +1,8 @@
 "use server";
 
 import { eq } from "drizzle-orm";
-import { db } from "@/db/index";
-import { cars } from "@/db/schema";
+import { db } from "@/drizzle/db";
+import { cars } from "@/drizzle/schema";
 import { createCarSchema } from "@/lib/validations/car";
 
 export type CreateCarActionState = {

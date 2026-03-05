@@ -1,17 +1,23 @@
-import { defineConfig } from "drizzle-kit";
+import { defineConfig } from 'drizzle-kit';
+import { env } from '@/data/env/server';
 
-const connectionString =
-  process.env.DATABASE_URL_UNPOOLED ??
-  process.env.DATABASE_URL ??
-  process.env.POSTGRES_URL ??
-  "";
+// export default defineConfig({
+//   out: "./drizzle",
+//   schema: "./src/db/schema.ts",
+//   dialect: "postgresql",
+//   dbCredentials: {
+//     url: connectionString,
+//   },
+//   verbose: true,
+//   strict: true,
+// });
 
 export default defineConfig({
-  out: "./drizzle",
-  schema: "./src/db/schema.ts",
-  dialect: "postgresql",
+  schema: './src/drizzle/schema.ts',
+  out: './src/drizzle/migrations',
+  dialect: 'postgresql',
   dbCredentials: {
-    url: connectionString,
+    url: env.DATABASE_URL,
   },
   verbose: true,
   strict: true,

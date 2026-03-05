@@ -45,10 +45,6 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
-body {
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-}
-
 :root {
   --radius: 0.625rem;
   --background: oklch(100% 0 0);
@@ -93,6 +89,8 @@ body {
     background-color: #edf1f8;
   }
 }
-.container {
-  @apply w-full max-w-6xl mx-auto px-8;
+
+@utility container {
+  @apply w-full mx-auto px-6;
+  max-width: 1200px;
 }

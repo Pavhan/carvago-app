@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Car } from '@/db/schema';
+import type { Car } from '@/drizzle/schema';
 import { formatPrice } from '@/helpers/formatPrice';
 
 type CarListItemProps = {
