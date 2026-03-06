@@ -1,4 +1,4 @@
-import { CarCreateForm } from '@/components/cars/CarCreateForm';
+import { CarCreateForm } from '@/app/cars/new/_components/CarCreateForm';
 
 export default function NewCarPage() {
   return (

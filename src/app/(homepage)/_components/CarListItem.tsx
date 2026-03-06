@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Car } from '@/drizzle/schema';
 import { formatPrice } from '@/helpers/formatPrice';
+import { Coins, Fuel, Gauge } from 'lucide-react';
 
 type CarListItemProps = {
   car: Car;
@@ -13,18 +14,17 @@ type CarListItemProps = {
 export function CarListItem({ car }: CarListItemProps) {
   return (
     <Card>
-      <div className="flex gap-4 p-4">
-        <div className="shrink-0">
+      <div className="grid sm:grid-cols-[200px_1fr] grid-cols-1 gap-4 p-4">
+        <div className="w-full h-30 sm:w-50 bg-neutral-200/80 rounded-md overflow-hidden">
           <Image
             alt={car.name}
-            className="h-30 w-auto rounded-md object-cover"
+            className=" w-full h-auto object-cover"
             src={car.imageUrl}
             width={200}
             height={120}
-            style={{ height: 120, width: 'auto' }}
           />
         </div>
-        <div className="min-w-0 flex-1">
+        <div className="space-y-4">
           <CardHeader className="space-y-4 p-0">
             <CardTitle>{car.name}</CardTitle>
             <div className="flex flex-wrap gap-2">
@@ -35,11 +35,20 @@ export function CarListItem({ car }: CarListItemProps) {
               ))}
             </div>
           </CardHeader>
-          <CardContent className="flex items-center justify-between gap-3 p-0 text-sm">
-            <span>{car.mileageKm} km</span>
-            <span>{car.fuelType}</span>
-            <span>{formatPrice(car.totalPriceCzk)}</span>
-            <Button asChild>
+          <CardContent className="flex items-center flex-wrap justify-between gap-3 p-0 text-sm">
+            <span className="inline-flex items-center gap-1">
+              <Gauge className="h-3.5 w-3.5 text-muted-foreground" />
+              {car.mileageKm} km
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Fuel className="h-3.5 w-3.5 text-muted-foreground" />
+              {car.fuelType}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Coins className="h-3.5 w-3.5 text-muted-foreground" />
+              {formatPrice(car.totalPriceCzk)}
+            </span>
+            <Button asChild className="w-full sm:w-auto">
               <Link href={`/cars/${car.slug}`}>Detail</Link>
             </Button>
           </CardContent>

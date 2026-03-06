@@ -9,7 +9,7 @@ import {
 
 export function Header() {
   return (
-    <header className="bg-white sticky py-2 box-shadow">
+    <header className="bg-white sticky py-2 box-shadow top-0">
       <div className="container">
         <div className="flex items-center justify-between gap-8">
           <div className="flex gap-8 items-center">

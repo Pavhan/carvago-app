@@ -4,21 +4,13 @@ import { eq } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import { cars } from "@/drizzle/schema";
 import { createCarSchema } from "@/lib/validations/car";
+import { createSlug } from "@/helpers/createSlug";
 
 export type CreateCarActionState = {
   message?: string;
   fieldErrors?: Record<string, string[]>;
   slug?: string;
 };
-
-function createSlug(value: string) {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 export async function createCarAction(
   _prevState: CreateCarActionState,

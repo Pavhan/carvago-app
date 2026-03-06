@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
-export function SkeletonCarListItem() {
+export function CarListItemSkeleton() {
   return Array.from({ length: 2 }).map((_, index) => (
     <Card key={index} className="animate-pulse">
-      <div className="flex gap-4 p-4">
-        <div className="h-30 w-50 shrink-0 rounded-md bg-neutral-200/80" />
-        <div className="min-w-0 flex-1">
+      <div className="grid md:grid-cols-[200px_1fr] grid-cols-1 gap-4 items-center p-4">
+        <div className="h-30 w-50 rounded-md bg-neutral-200/80" />
+        <div>
           <CardHeader className="space-y-4 p-0">
             <div className="h-6 w-3/5 rounded-full bg-neutral-200/80" />
             <div className="flex flex-wrap gap-2">

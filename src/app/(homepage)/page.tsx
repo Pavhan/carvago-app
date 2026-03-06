@@ -1,9 +1,20 @@
-import { CarListItem } from '@/components/cars/CarListItem';
-
-import { getCars } from '@/lib/cars';
+import { Suspense } from 'react';
+import { CarListItemSkeleton } from './_components/CarListItemSkeleton';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorPage from '@/components/error/ErrorPage';
+import { CarList } from './_components/CarList';
 
 export default async function Home() {
-  const carList = await getCars();
-
-  return carList.map((car) => <CarListItem key={car.id} car={car} />);
+  return (
+    <div className="flex flex-col gap-6">
+      <h1 className="text-3xl font-semibold">Auta</h1>
+      <div className="space-y-4">
+        <ErrorBoundary fallback={<ErrorPage />}>
+          <Suspense fallback={<CarListItemSkeleton />}>
+            <CarList />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
+    </div>
+  );
 }
