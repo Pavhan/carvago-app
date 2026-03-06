@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useActionState, useEffect } from "react";
-import { toast } from "sonner";
+import Link from 'next/link';
+import { useActionState, useEffect } from 'react';
+import { toast } from 'sonner';
 import {
   type UpdateCarActionState,
   updateCarAction,
-} from "@/app/actions/carUpdate";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { CarFormFields, type CarFormValues } from "./CarFormFields";
+} from '@/app/actions/carUpdate';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { CarFormFields, type CarFormValues } from './CarFormFields';
 
 type EditCarFormProps = {
   carId: number;
@@ -30,7 +30,7 @@ export function EditCarForm({ carId, slug, initialValues }: EditCarFormProps) {
       return;
     }
 
-    if (state.status === "error") {
+    if (state.status === 'error') {
       toast.error(state.message);
     }
   }, [state]);
@@ -38,7 +38,10 @@ export function EditCarForm({ carId, slug, initialValues }: EditCarFormProps) {
   return (
     <Card>
       <CardContent className="pt-6">
-        <form action={formAction} className="grid gap-4 md:grid-cols-2">
+        <form
+          action={formAction}
+          className="grid gap-4 sm:grid-cols-2 md:grid-cols-3"
+        >
           <input name="id" type="hidden" value={carId} />
           <input name="slug" type="hidden" value={slug} />
 
@@ -47,7 +50,7 @@ export function EditCarForm({ carId, slug, initialValues }: EditCarFormProps) {
             fieldErrors={state.fieldErrors}
           />
 
-          {state.message && state.status === "error" && !state.fieldErrors && (
+          {state.message && state.status === 'error' && !state.fieldErrors && (
             <p className="text-sm text-red-600 md:col-span-2">
               {state.message}
             </p>
@@ -55,7 +58,7 @@ export function EditCarForm({ carId, slug, initialValues }: EditCarFormProps) {
 
           <div className="flex items-center gap-3 md:col-span-2">
             <Button disabled={isPending} type="submit">
-              {isPending ? "Ukládám…" : "Uložit změny"}
+              {isPending ? 'Ukládám…' : 'Uložit změny'}
             </Button>
             <Link className="text-sm underline" href={`/cars/${slug}`}>
               Zpět na detail

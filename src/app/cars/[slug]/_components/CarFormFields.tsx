@@ -1,6 +1,111 @@
-import { FormField } from "@/components/form/FormField";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+'use client';
+
+import { CalendarIcon, CheckIcon, XIcon } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { FormField } from '@/components/form/FormField';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Label } from '@/components/ui/label';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { cn } from '@/lib/utils';
+
+const FUEL_OPTIONS = [
+  'Benzín',
+  'Diesel',
+  'Elektro',
+  'Hybrid',
+  'Plug-in hybrid',
+  'LPG',
+  'CNG',
+] as const;
+
+const TRANSMISSION_OPTIONS = ['Automat', 'Manuál'] as const;
+
+const EUROPEAN_COUNTRY_OPTIONS = [
+  'Albánie',
+  'Andorra',
+  'Belgie',
+  'Bělorusko',
+  'Bosna a Hercegovina',
+  'Bulharsko',
+  'Černá Hora',
+  'Česko',
+  'Dánsko',
+  'Estonsko',
+  'Finsko',
+  'Francie',
+  'Chorvatsko',
+  'Irsko',
+  'Island',
+  'Itálie',
+  'Kypr',
+  'Lichtenštejnsko',
+  'Litva',
+  'Lotyšsko',
+  'Lucembursko',
+  'Maďarsko',
+  'Malta',
+  'Moldavsko',
+  'Monako',
+  'Německo',
+  'Nizozemsko',
+  'Norsko',
+  'Polsko',
+  'Portugalsko',
+  'Rakousko',
+  'Rumunsko',
+  'Řecko',
+  'San Marino',
+  'Severní Makedonie',
+  'Slovensko',
+  'Slovinsko',
+  'Srbsko',
+  'Španělsko',
+  'Švédsko',
+  'Švýcarsko',
+  'Ukrajina',
+  'Vatikán',
+  'Velká Británie',
+] as const;
+
+const EQUIPMENT_TAG_OPTIONS = [
+  'TOP výbava',
+  '360° parkovací kamera',
+  'Regulace tuhosti podvozku',
+  'Matrix LED',
+  'Adaptivní tempomat',
+  'Vyhřívaná sedadla',
+  'Quattro',
+  'Virtual Cockpit',
+  'Apple CarPlay',
+  'Tepelné čerpadlo',
+  '360° kamera',
+  'Nabíjení DC',
+  'xDrive',
+  'M Sport',
+  'Head-up displej',
+  '4MATIC',
+  'Multibeam LED',
+  'Bezklíčové odemykání',
+  'AWD',
+  'Autopilot',
+  'Pilot Assist',
+  'Panoramatická střecha',
+  'Plug-in hybrid',
+  'i-Cockpit',
+] as const;
 
 export type CarFormValues = {
   name: string;
@@ -26,10 +131,86 @@ type CarFormFieldsProps = {
   defaultValues?: CarFormValues;
 };
 
+function parseMonthYear(value?: string): Date | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const match = /^(\d{2})\/(\d{4})$/.exec(value);
+
+  if (!match) {
+    return undefined;
+  }
+
+  const month = Number(match[1]);
+  const year = Number(match[2]);
+
+  if (month < 1 || month > 12) {
+    return undefined;
+  }
+
+  return new Date(year, month - 1, 1);
+}
+
+function formatMonthYear(date: Date): string {
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+
+  return `${month}/${date.getFullYear()}`;
+}
+
+function parseEquipmentTags(value?: string): string[] {
+  if (!value) {
+    return [];
+  }
+
+  return value
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
 export function CarFormFields({
   fieldErrors,
   defaultValues,
 }: CarFormFieldsProps) {
+  const [firstRegistrationDate, setFirstRegistrationDate] = useState<
+    Date | undefined
+  >(() => parseMonthYear(defaultValues?.firstRegistration));
+  const [firstRegistrationValue, setFirstRegistrationValue] = useState<string>(
+    defaultValues?.firstRegistration ?? '',
+  );
+  const [transmissionValue, setTransmissionValue] = useState<string>(
+    defaultValues?.transmission ?? '',
+  );
+  const [fuelTypeValue, setFuelTypeValue] = useState<string>(
+    defaultValues?.fuelType ?? '',
+  );
+  const [locationCountryValue, setLocationCountryValue] = useState<string>(
+    defaultValues?.locationCountry ?? '',
+  );
+  const [equipmentTagsValue, setEquipmentTagsValue] = useState<string[]>(() =>
+    parseEquipmentTags(defaultValues?.equipmentTags),
+  );
+  const equipmentTagOptions = useMemo(() => {
+    const optionSet = new Set<string>(EQUIPMENT_TAG_OPTIONS);
+
+    for (const selectedTag of equipmentTagsValue) {
+      optionSet.add(selectedTag);
+    }
+
+    return [...optionSet];
+  }, [equipmentTagsValue]);
+
+  function toggleEquipmentTag(tag: string) {
+    setEquipmentTagsValue((currentValue) => {
+      if (currentValue.includes(tag)) {
+        return currentValue.filter((item) => item !== tag);
+      }
+
+      return [...currentValue, tag];
+    });
+  }
+
   return (
     <>
       <FormField
@@ -54,13 +235,48 @@ export function CarFormFields({
         required
         type="number"
       />
-      <FormField
-        defaultValue={defaultValues?.firstRegistration}
-        error={fieldErrors?.firstRegistration?.[0]}
-        label="První registrace (MM/RRRR)"
-        name="firstRegistration"
-        required
-      />
+      <div className="space-y-2">
+        <Label htmlFor="firstRegistration">První registrace</Label>
+        <input
+          id="firstRegistration"
+          name="firstRegistration"
+          type="hidden"
+          value={firstRegistrationValue}
+        />
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              type="button"
+              variant="outline"
+              className={cn(
+                'w-full justify-start text-left font-normal',
+                !firstRegistrationValue && 'text-neutral-500',
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {firstRegistrationValue || 'Vyber měsíc a rok'}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={firstRegistrationDate}
+              onSelect={(date) => {
+                setFirstRegistrationDate(date);
+                setFirstRegistrationValue(date ? formatMonthYear(date) : '');
+              }}
+              captionLayout="dropdown"
+              fromYear={1990}
+              toYear={new Date().getFullYear()}
+            />
+          </PopoverContent>
+        </Popover>
+        {fieldErrors?.firstRegistration?.[0] && (
+          <p className="text-sm text-red-600">
+            {fieldErrors.firstRegistration[0]}
+          </p>
+        )}
+      </div>
       <FormField
         defaultValue={defaultValues?.powerKw}
         error={fieldErrors?.powerKw?.[0]}
@@ -77,27 +293,76 @@ export function CarFormFields({
         required
         type="number"
       />
-      <FormField
-        defaultValue={defaultValues?.transmission}
-        error={fieldErrors?.transmission?.[0]}
-        label="Převodovka"
-        name="transmission"
-        required
-      />
-      <FormField
-        defaultValue={defaultValues?.fuelType}
-        error={fieldErrors?.fuelType?.[0]}
-        label="Palivo"
-        name="fuelType"
-        required
-      />
-      <FormField
-        defaultValue={defaultValues?.locationCountry}
-        error={fieldErrors?.locationCountry?.[0]}
-        label="Země"
-        name="locationCountry"
-        required
-      />
+
+      <div className="space-y-2">
+        <Label htmlFor="transmission">Převodovka</Label>
+        <input name="transmission" type="hidden" value={transmissionValue} />
+        <Select value={transmissionValue} onValueChange={setTransmissionValue}>
+          <SelectTrigger id="transmission">
+            <SelectValue placeholder="Vyber převodovku" />
+          </SelectTrigger>
+          <SelectContent>
+            {TRANSMISSION_OPTIONS.map((option) => (
+              <SelectItem key={option} value={option}>
+                {option}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {fieldErrors?.transmission?.[0] && (
+          <p className="text-sm text-red-600">{fieldErrors.transmission[0]}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="fuelType">Palivo</Label>
+        <input name="fuelType" type="hidden" value={fuelTypeValue} />
+        <Select value={fuelTypeValue} onValueChange={setFuelTypeValue}>
+          <SelectTrigger id="fuelType">
+            <SelectValue placeholder="Vyber palivo" />
+          </SelectTrigger>
+          <SelectContent>
+            {FUEL_OPTIONS.map((option) => (
+              <SelectItem key={option} value={option}>
+                {option}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {fieldErrors?.fuelType?.[0] && (
+          <p className="text-sm text-red-600">{fieldErrors.fuelType[0]}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="locationCountry">Země</Label>
+        <input
+          name="locationCountry"
+          type="hidden"
+          value={locationCountryValue}
+        />
+        <Select
+          value={locationCountryValue}
+          onValueChange={setLocationCountryValue}
+        >
+          <SelectTrigger id="locationCountry">
+            <SelectValue placeholder="Vyber zemi" />
+          </SelectTrigger>
+          <SelectContent>
+            {EUROPEAN_COUNTRY_OPTIONS.map((option) => (
+              <SelectItem key={option} value={option}>
+                {option}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {fieldErrors?.locationCountry?.[0] && (
+          <p className="text-sm text-red-600">
+            {fieldErrors.locationCountry[0]}
+          </p>
+        )}
+      </div>
+
       <FormField
         defaultValue={defaultValues?.deliveryPriceCzk}
         error={fieldErrors?.deliveryPriceCzk?.[0]}
@@ -145,14 +410,68 @@ export function CarFormFields({
         required
       />
 
-      <div className="space-y-2 md:col-span-2">
-        <Label htmlFor="equipmentTags">Výbava (odděl čárkou)</Label>
-        <Textarea
-          defaultValue={defaultValues?.equipmentTags}
+      <div className="space-y-2 sm:col-span-2 md:col-span-3">
+        <Label htmlFor="equipmentTags">Výbava</Label>
+        <input
           id="equipmentTags"
           name="equipmentTags"
-          required
+          type="hidden"
+          value={equipmentTagsValue.join(', ')}
         />
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              className={cn(
+                'w-full justify-start text-left font-normal',
+                equipmentTagsValue.length === 0 && 'text-neutral-500',
+              )}
+              type="button"
+              variant="outline"
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {equipmentTagsValue.length > 0
+                ? `Vybráno: ${equipmentTagsValue.length}`
+                : 'Vyber výbavu'}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-full max-w-xl p-2">
+            <div className="grid gap-2 sm:grid-cols-2">
+              {equipmentTagOptions.map((tag) => {
+                const isSelected = equipmentTagsValue.includes(tag);
+
+                return (
+                  <Button
+                    className="justify-between"
+                    key={tag}
+                    onClick={() => toggleEquipmentTag(tag)}
+                    type="button"
+                    variant={isSelected ? 'secondary' : 'ghost'}
+                  >
+                    <span className="truncate">{tag}</span>
+                    {isSelected && <CheckIcon className="h-4 w-4" />}
+                  </Button>
+                );
+              })}
+            </div>
+          </PopoverContent>
+        </Popover>
+        {equipmentTagsValue.length > 0 && (
+          <div className="flex flex-wrap gap-2 pt-1">
+            {equipmentTagsValue.map((tag) => (
+              <Badge className="gap-1 pr-1" key={tag} variant="secondary">
+                {tag}
+                <button
+                  aria-label={`Odebrat výbavu ${tag}`}
+                  className="rounded-sm p-0.5 hover:bg-black/10"
+                  onClick={() => toggleEquipmentTag(tag)}
+                  type="button"
+                >
+                  <XIcon className="h-3 w-3" />
+                </button>
+              </Badge>
+            ))}
+          </div>
+        )}
         {fieldErrors?.equipmentTags?.[0] && (
           <p className="text-sm text-red-600">{fieldErrors.equipmentTags[0]}</p>
         )}
