@@ -1,10 +1,3 @@
-import { notFound } from 'next/navigation';
-import { CarDetailImage } from '@/app/cars/[slug]/_components/CarDetailImage';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { formatPrice } from '@/helpers/formatPrice';
-import { getCarBySlug } from '@/lib/cars';
 import {
   Bolt,
   Calendar,
@@ -14,10 +7,20 @@ import {
   Fuel,
   Gauge,
   MapPin,
+  Pencil,
   Receipt,
   TrendingUp,
   Truck,
-} from 'lucide-react';
+} from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { CarDetailImage } from "@/app/cars/[slug]/_components/CarDetailImage";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { formatPrice } from "@/helpers/formatPrice";
+import { getCarBySlug } from "@/lib/cars";
 
 export async function CarDetailContent({ slug }: { slug: string }) {
   const car = await getCarBySlug(slug);
@@ -101,6 +104,14 @@ export async function CarDetailContent({ slug }: { slug: string }) {
                   {car.priceRatingLabel}
                 </p>
               </div>
+            </div>
+            <div className="pt-2">
+              <Button asChild size="sm" type="button" variant="outline">
+                <Link href={`/cars/${car.slug}/edit`}>
+                  <Pencil className="h-4 w-4" />
+                  Upravit
+                </Link>
+              </Button>
             </div>
           </CardContent>
         </div>

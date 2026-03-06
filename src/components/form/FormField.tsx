@@ -1,5 +1,5 @@
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type FormFieldProps = {
   label: string;
@@ -7,19 +7,27 @@ type FormFieldProps = {
   type?: string;
   error?: string;
   required?: boolean;
+  defaultValue?: string | number;
 };
 
 export function FormField({
   label,
   name,
-  type = 'text',
+  type = "text",
   error,
   required = false,
+  defaultValue,
 }: FormFieldProps) {
   return (
     <div className="space-y-2">
       <Label htmlFor={name}>{label}</Label>
-      <Input id={name} name={name} type={type} required={required} />
+      <Input
+        defaultValue={defaultValue}
+        id={name}
+        name={name}
+        type={type}
+        required={required}
+      />
       {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
   );
