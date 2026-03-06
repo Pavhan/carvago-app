@@ -1,15 +1,16 @@
 "use server";
 
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { db } from "@/drizzle/db";
 import { cars } from "@/drizzle/schema";
-import { createCarSchema } from "@/lib/validations/car";
 import { createSlug } from "@/helpers/createSlug";
+import { createCarSchema } from "@/lib/validations/car";
 
 export type CreateCarActionState = {
   message?: string;
   fieldErrors?: Record<string, string[]>;
-  slug?: string;
 };
 
 export async function createCarAction(
@@ -66,8 +67,7 @@ export async function createCarAction(
     slug: uniqueSlug,
   });
 
-  return {
-    message: "Auto bylo úspěšně uloženo.",
-    slug: uniqueSlug,
-  };
+  revalidatePath("/");
+  revalidatePath("/cars");
+  redirect(`/cars/${uniqueSlug}`);
 }

@@ -1,29 +1,21 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useActionState, useEffect } from 'react';
-import { type CreateCarActionState, createCarAction } from '@/app/actions/cars';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { FormField } from '@/components/form/FormField';
+import Link from "next/link";
+import { useActionState } from "react";
+import { type CreateCarActionState, createCarAction } from "@/app/actions/cars";
+import { FormField } from "@/components/form/FormField";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const initialState: CreateCarActionState = {};
 
 export function CarCreateForm() {
-  const router = useRouter();
   const [state, formAction, isPending] = useActionState(
     createCarAction,
     initialState,
   );
-
-  useEffect(() => {
-    if (state.slug) {
-      router.push(`/cars/${state.slug}`);
-    }
-  }, [router, state.slug]);
 
   return (
     <Card>
@@ -145,7 +137,7 @@ export function CarCreateForm() {
 
           <div className="md:col-span-2 flex items-center gap-3">
             <Button type="submit" disabled={isPending}>
-              {isPending ? 'Ukládám…' : 'Uložit auto'}
+              {isPending ? "Ukládám…" : "Uložit auto"}
             </Button>
             <Link href="/cars" className="text-sm underline">
               Zpět na výpis
