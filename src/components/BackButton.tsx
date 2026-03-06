@@ -16,7 +16,7 @@ export function BackButton({
 }: BackButtonProps) {
   return (
     <Button asChild variant="ghost" size="sm" className={cn(className)}>
-      <Link href={href}>
+      <Link href={href} data-testid="back-link">
         <ArrowLeft className="h-4 w-4" />
         {label}
       </Link>

@@ -32,7 +32,9 @@ export async function CarDetailContent({ slug }: { slug: string }) {
         <CarDetailImage alt={car.name} src={car.imageUrl} />
         <div>
           <CardHeader className="space-y-4">
-            <CardTitle className="text-2xl">{car.name}</CardTitle>
+            <CardTitle className="text-2xl" data-testid="car-title">
+              {car.name}
+            </CardTitle>
             <div className="flex flex-wrap gap-2">
               <Badge>{car.partnerLabel}</Badge>
               {car.equipmentTags.map((tag) => (
@@ -83,7 +85,10 @@ export async function CarDetailContent({ slug }: { slug: string }) {
                 </p>
               </div>
               <div className="flex flex-col gap-3">
-                <p className="inline-flex items-center gap-2 text-xl font-semibold">
+                <p
+                  className="inline-flex items-center gap-2 text-xl font-semibold"
+                  data-testid="car-price"
+                >
                   <Coins className="h-4 w-4 text-muted-foreground" />
                   Cena: {formatPrice(car.totalPriceCzk)}
                 </p>

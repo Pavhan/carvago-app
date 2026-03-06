@@ -57,7 +57,7 @@ npm run lint
 Run a single test with trace enabled:
 
 ```bash
-npm run test:e2e -- tests/e2e/car-detail-back.spec.ts --trace on
+npm run test:e2e -- e2e/car-detail-back.spec.ts --trace on
 ```
 
 Open the trace viewer:

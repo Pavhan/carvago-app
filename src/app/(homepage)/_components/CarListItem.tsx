@@ -35,7 +35,7 @@ export function CarListItem({ car, index }: CarListItemProps) {
     : 'relative z-10 h-full w-full object-cover object-center opacity-0 blur-sm';
 
   return (
-    <Card className="car-list-item-fade" style={style}>
+    <Card className="car-list-item-fade" style={style} data-testid="car-card">
       <div className="grid sm:grid-cols-[200px_1fr] grid-cols-1 gap-4 p-4">
         <div className={wrapperClassName} style={wrapperStyle}>
           <Image
@@ -50,7 +50,7 @@ export function CarListItem({ car, index }: CarListItemProps) {
         </div>
         <div className="space-y-4">
           <CardHeader className="space-y-4 p-0">
-            <CardTitle>{car.name}</CardTitle>
+            <CardTitle data-testid="car-title">{car.name}</CardTitle>
             <div className="flex flex-wrap gap-2">
               {car.equipmentTags.map((tag) => (
                 <Badge key={tag} variant="secondary">
@@ -73,7 +73,9 @@ export function CarListItem({ car, index }: CarListItemProps) {
               {formatPrice(car.totalPriceCzk)}
             </span>
             <Button asChild className="w-full sm:w-auto">
-              <Link href={`/cars/${car.slug}`}>Detail</Link>
+              <Link href={`/cars/${car.slug}`} data-testid="car-detail-link">
+                Detail
+              </Link>
             </Button>
           </CardContent>
         </div>
