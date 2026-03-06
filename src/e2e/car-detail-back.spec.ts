@@ -4,7 +4,7 @@ test('car detail back navigation', async ({ page }) => {
   await page.goto('/');
 
   // Ověř heading
-  await expect(page.getByRole('heading', { name: 'Auta' })).toBeVisible();
+  await expect(page.getByTestId('cars-heading')).toBeVisible();
 
   // Vyber konkrétní auto — ne první náhodné
   const firstCar = page.getByTestId('car-card').first();
@@ -26,5 +26,5 @@ test('car detail back navigation', async ({ page }) => {
 
   // Ověř návrat
   await expect(page).toHaveURL('/');
-  await expect(page.getByRole('heading', { name: 'Auta' })).toBeVisible();
+  await expect(page.getByTestId('cars-heading')).toBeVisible();
 });
