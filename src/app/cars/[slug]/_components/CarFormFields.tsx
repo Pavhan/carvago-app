@@ -1,110 +1,110 @@
-'use client';
+"use client";
 
-import { CalendarIcon, CheckIcon, XIcon } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { FormField } from '@/components/form/FormField';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Label } from '@/components/ui/label';
+import { CalendarIcon, CheckIcon, XIcon } from "lucide-react";
+import { useState } from "react";
+import { FormField } from "@/components/form/FormField";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 const FUEL_OPTIONS = [
-  'Benzín',
-  'Diesel',
-  'Elektro',
-  'Hybrid',
-  'Plug-in hybrid',
-  'LPG',
-  'CNG',
+  "Benzín",
+  "Diesel",
+  "Elektro",
+  "Hybrid",
+  "Plug-in hybrid",
+  "LPG",
+  "CNG",
 ] as const;
 
-const TRANSMISSION_OPTIONS = ['Automat', 'Manuál'] as const;
+const TRANSMISSION_OPTIONS = ["Automat", "Manuál"] as const;
 
 const EUROPEAN_COUNTRY_OPTIONS = [
-  'Albánie',
-  'Andorra',
-  'Belgie',
-  'Bělorusko',
-  'Bosna a Hercegovina',
-  'Bulharsko',
-  'Černá Hora',
-  'Česko',
-  'Dánsko',
-  'Estonsko',
-  'Finsko',
-  'Francie',
-  'Chorvatsko',
-  'Irsko',
-  'Island',
-  'Itálie',
-  'Kypr',
-  'Lichtenštejnsko',
-  'Litva',
-  'Lotyšsko',
-  'Lucembursko',
-  'Maďarsko',
-  'Malta',
-  'Moldavsko',
-  'Monako',
-  'Německo',
-  'Nizozemsko',
-  'Norsko',
-  'Polsko',
-  'Portugalsko',
-  'Rakousko',
-  'Rumunsko',
-  'Řecko',
-  'San Marino',
-  'Severní Makedonie',
-  'Slovensko',
-  'Slovinsko',
-  'Srbsko',
-  'Španělsko',
-  'Švédsko',
-  'Švýcarsko',
-  'Ukrajina',
-  'Vatikán',
-  'Velká Británie',
+  "Albánie",
+  "Andorra",
+  "Belgie",
+  "Bělorusko",
+  "Bosna a Hercegovina",
+  "Bulharsko",
+  "Černá Hora",
+  "Česko",
+  "Dánsko",
+  "Estonsko",
+  "Finsko",
+  "Francie",
+  "Chorvatsko",
+  "Irsko",
+  "Island",
+  "Itálie",
+  "Kypr",
+  "Lichtenštejnsko",
+  "Litva",
+  "Lotyšsko",
+  "Lucembursko",
+  "Maďarsko",
+  "Malta",
+  "Moldavsko",
+  "Monako",
+  "Německo",
+  "Nizozemsko",
+  "Norsko",
+  "Polsko",
+  "Portugalsko",
+  "Rakousko",
+  "Rumunsko",
+  "Řecko",
+  "San Marino",
+  "Severní Makedonie",
+  "Slovensko",
+  "Slovinsko",
+  "Srbsko",
+  "Španělsko",
+  "Švédsko",
+  "Švýcarsko",
+  "Ukrajina",
+  "Vatikán",
+  "Velká Británie",
 ] as const;
 
 const EQUIPMENT_TAG_OPTIONS = [
-  'TOP výbava',
-  '360° parkovací kamera',
-  'Regulace tuhosti podvozku',
-  'Matrix LED',
-  'Adaptivní tempomat',
-  'Vyhřívaná sedadla',
-  'Quattro',
-  'Virtual Cockpit',
-  'Apple CarPlay',
-  'Tepelné čerpadlo',
-  '360° kamera',
-  'Nabíjení DC',
-  'xDrive',
-  'M Sport',
-  'Head-up displej',
-  '4MATIC',
-  'Multibeam LED',
-  'Bezklíčové odemykání',
-  'AWD',
-  'Autopilot',
-  'Pilot Assist',
-  'Panoramatická střecha',
-  'Plug-in hybrid',
-  'i-Cockpit',
+  "TOP výbava",
+  "360° parkovací kamera",
+  "Regulace tuhosti podvozku",
+  "Matrix LED",
+  "Adaptivní tempomat",
+  "Vyhřívaná sedadla",
+  "Quattro",
+  "Virtual Cockpit",
+  "Apple CarPlay",
+  "Tepelné čerpadlo",
+  "360° kamera",
+  "Nabíjení DC",
+  "xDrive",
+  "M Sport",
+  "Head-up displej",
+  "4MATIC",
+  "Multibeam LED",
+  "Bezklíčové odemykání",
+  "AWD",
+  "Autopilot",
+  "Pilot Assist",
+  "Panoramatická střecha",
+  "Plug-in hybrid",
+  "i-Cockpit",
 ] as const;
 
 export type CarFormValues = {
@@ -153,7 +153,7 @@ function parseMonthYear(value?: string): Date | undefined {
 }
 
 function formatMonthYear(date: Date): string {
-  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
 
   return `${month}/${date.getFullYear()}`;
 }
@@ -164,7 +164,7 @@ function parseEquipmentTags(value?: string): string[] {
   }
 
   return value
-    .split(',')
+    .split(",")
     .map((tag) => tag.trim())
     .filter(Boolean);
 }
@@ -173,33 +173,27 @@ export function CarFormFields({
   fieldErrors,
   defaultValues,
 }: CarFormFieldsProps) {
-  const [firstRegistrationDate, setFirstRegistrationDate] = useState<
-    Date | undefined
-  >(() => parseMonthYear(defaultValues?.firstRegistration));
-  const [firstRegistrationValue, setFirstRegistrationValue] = useState<string>(
-    defaultValues?.firstRegistration ?? '',
+  const [firstRegistrationDate, setFirstRegistrationDate] = useState(() =>
+    parseMonthYear(defaultValues?.firstRegistration),
   );
-  const [transmissionValue, setTransmissionValue] = useState<string>(
-    defaultValues?.transmission ?? '',
+  const [firstRegistrationValue, setFirstRegistrationValue] = useState(
+    defaultValues?.firstRegistration ?? "",
   );
-  const [fuelTypeValue, setFuelTypeValue] = useState<string>(
-    defaultValues?.fuelType ?? '',
+  const [transmissionValue, setTransmissionValue] = useState(
+    defaultValues?.transmission ?? "",
   );
-  const [locationCountryValue, setLocationCountryValue] = useState<string>(
-    defaultValues?.locationCountry ?? '',
+  const [fuelTypeValue, setFuelTypeValue] = useState(
+    defaultValues?.fuelType ?? "",
   );
-  const [equipmentTagsValue, setEquipmentTagsValue] = useState<string[]>(() =>
+  const [locationCountryValue, setLocationCountryValue] = useState(
+    defaultValues?.locationCountry ?? "",
+  );
+  const [equipmentTagsValue, setEquipmentTagsValue] = useState(() =>
     parseEquipmentTags(defaultValues?.equipmentTags),
   );
-  const equipmentTagOptions = useMemo(() => {
-    const optionSet = new Set<string>(EQUIPMENT_TAG_OPTIONS);
-
-    for (const selectedTag of equipmentTagsValue) {
-      optionSet.add(selectedTag);
-    }
-
-    return [...optionSet];
-  }, [equipmentTagsValue]);
+  const equipmentTagOptions = [
+    ...new Set([...EQUIPMENT_TAG_OPTIONS, ...equipmentTagsValue]),
+  ];
 
   function toggleEquipmentTag(tag: string) {
     setEquipmentTagsValue((currentValue) => {
@@ -249,12 +243,12 @@ export function CarFormFields({
               type="button"
               variant="outline"
               className={cn(
-                'w-full justify-start text-left font-normal',
-                !firstRegistrationValue && 'text-neutral-500',
+                "w-full justify-start text-left font-normal",
+                !firstRegistrationValue && "text-neutral-500",
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {firstRegistrationValue || 'Vyber měsíc a rok'}
+              {firstRegistrationValue || "Vyber měsíc a rok"}
             </Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-auto p-0">
@@ -263,7 +257,7 @@ export function CarFormFields({
               selected={firstRegistrationDate}
               onSelect={(date) => {
                 setFirstRegistrationDate(date);
-                setFirstRegistrationValue(date ? formatMonthYear(date) : '');
+                setFirstRegistrationValue(date ? formatMonthYear(date) : "");
               }}
               captionLayout="dropdown"
               fromYear={1990}
@@ -416,14 +410,14 @@ export function CarFormFields({
           id="equipmentTags"
           name="equipmentTags"
           type="hidden"
-          value={equipmentTagsValue.join(', ')}
+          value={equipmentTagsValue.join(", ")}
         />
         <Popover>
           <PopoverTrigger asChild>
             <Button
               className={cn(
-                'w-full justify-start text-left font-normal',
-                equipmentTagsValue.length === 0 && 'text-neutral-500',
+                "w-full justify-start text-left font-normal",
+                equipmentTagsValue.length === 0 && "text-neutral-500",
               )}
               type="button"
               variant="outline"
@@ -431,7 +425,7 @@ export function CarFormFields({
               <CalendarIcon className="mr-2 h-4 w-4" />
               {equipmentTagsValue.length > 0
                 ? `Vybráno: ${equipmentTagsValue.length}`
-                : 'Vyber výbavu'}
+                : "Vyber výbavu"}
             </Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-full max-w-xl p-2">
@@ -445,7 +439,7 @@ export function CarFormFields({
                     key={tag}
                     onClick={() => toggleEquipmentTag(tag)}
                     type="button"
-                    variant={isSelected ? 'secondary' : 'ghost'}
+                    variant={isSelected ? "secondary" : "ghost"}
                   >
                     <span className="truncate">{tag}</span>
                     {isSelected && <CheckIcon className="h-4 w-4" />}
