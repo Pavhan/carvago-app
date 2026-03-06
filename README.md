@@ -51,3 +51,17 @@ Auta:
 ```bash
 npm run lint
 ```
+
+## E2E tests (Playwright)
+
+Run a single test with trace enabled:
+
+```bash
+npm run test:e2e -- tests/e2e/car-detail-back.spec.ts --trace on
+```
+
+Open the trace viewer:
+
+```bash
+npx playwright show-trace test-results/**/trace.zip
+```
