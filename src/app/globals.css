@@ -87,10 +87,33 @@
   body {
     @apply bg-background text-foreground;
     background-color: #edf1f8;
+    overflow-x: scroll;
   }
 }
 
 @utility container {
   @apply w-full mx-auto px-6;
   max-width: 1200px;
+}
+
+@keyframes car-list-item-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .car-list-item-fade {
+    animation: car-list-item-fade 300ms ease-out both;
+    animation-delay: var(--car-item-delay, 0ms);
+  }
+
+  @starting-style {
+    .car-list-item-fade {
+      opacity: 0;
+    }
+  }
 }

@@ -3,10 +3,11 @@ import { getCars } from '@/lib/cars';
 
 export async function CarList() {
   const carList = await getCars();
+
   return (
     <>
-      {carList.map((car) => (
-        <CarListItem key={car.id} car={car} />
+      {carList.map((car, index) => (
+        <CarListItem key={car.id} car={car} index={index} />
       ))}
     </>
   );

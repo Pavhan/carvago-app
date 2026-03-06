@@ -6,19 +6,24 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Car } from '@/drizzle/schema';
 import { formatPrice } from '@/helpers/formatPrice';
 import { Coins, Fuel, Gauge } from 'lucide-react';
+import type { CSSProperties } from 'react';
 
 type CarListItemProps = {
   car: Car;
+  index: number;
 };
 
-export function CarListItem({ car }: CarListItemProps) {
+export function CarListItem({ car, index }: CarListItemProps) {
+  const style = {
+    '--car-item-delay': `${index * 50}ms`,
+  } as CSSProperties;
   return (
-    <Card>
+    <Card className="car-list-item-fade" style={style}>
       <div className="grid sm:grid-cols-[200px_1fr] grid-cols-1 gap-4 p-4">
         <div className="w-full h-30 sm:w-50 bg-neutral-200/80 rounded-md overflow-hidden">
           <Image
             alt={car.name}
-            className=" w-full h-auto object-cover"
+            className=" w-full h-auto object-cover object-center"
             src={car.imageUrl}
             width={200}
             height={120}
