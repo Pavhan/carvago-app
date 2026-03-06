@@ -13,8 +13,16 @@ const euclidCircularB = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Carvago App',
-  description: 'Carvago App',
+  title: {
+    template: '%s | Carvago',
+    default: 'Carvago — Největší výběr ojetých aut',
+  },
+  description: 'Největší evropská online služba pro nákup ojetých aut',
+  openGraph: {
+    siteName: 'Carvago',
+    locale: 'cs_CZ',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({

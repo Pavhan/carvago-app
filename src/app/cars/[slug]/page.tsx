@@ -1,7 +1,9 @@
-import { Suspense } from 'react';
-import { CarDetailSkeleton } from './_components/CarDetailSkeleton';
-import { BackButton } from '@/components/BackButton';
-import { CarDetailContent } from './_components/CarDetailContent';
+import { Suspense } from "react";
+import { BackButton } from "@/components/BackButton";
+import { CarDetailContent } from "./_components/CarDetailContent";
+import { CarDetailSkeleton } from "./_components/CarDetailSkeleton";
+
+export { generateMetadata } from "./generateMetadata";
 
 export default async function CarDetailPage({
   params,
