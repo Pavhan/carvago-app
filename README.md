@@ -46,6 +46,22 @@ Auta:
 - Detail: `/cars/[slug]`
 - Vytvoření nového auta: `/cars/new`
 
+## Image thumbnails
+
+Skript vytvoří zmenšené kopie obrázků (`-vf scale=20:-1`) do podsložky `thumbs` se stejným názvem souboru.
+
+Výchozí cesta je `public/images/cars`:
+
+```bash
+npm run images:small
+```
+
+Vlastní cestu předáš jako argument:
+
+```bash
+npm run images:small -- public/images/cars
+```
+
 ## Lint
 
 ```bash

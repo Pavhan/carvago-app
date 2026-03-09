@@ -1,27 +1,36 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
 function getSmallImageUrl(imageUrl: string) {
   if (!imageUrl) {
     return imageUrl;
   }
 
-  const [path, query] = imageUrl.split('?');
-  const extensionIndex = path.lastIndexOf('.');
+  const [pathWithHash, query = ""] = imageUrl.split("?");
+  const [path, hash = ""] = pathWithHash.split("#");
+  const extensionIndex = path.lastIndexOf(".");
 
   if (extensionIndex === -1) {
     return imageUrl;
   }
 
-  const extension = path.slice(extensionIndex);
-  const baseName = path.slice(0, extensionIndex);
+  const lastSlashIndex = path.lastIndexOf("/");
 
-  if (baseName.endsWith('-small')) {
+  if (lastSlashIndex === -1) {
     return imageUrl;
   }
 
-  const smallPath = `${baseName}-small${extension}`;
+  const directoryPath = path.slice(0, lastSlashIndex);
+  const fileName = path.slice(lastSlashIndex + 1);
 
-  return query ? `${smallPath}?${query}` : smallPath;
+  if (directoryPath.endsWith("/thumbs")) {
+    return imageUrl;
+  }
+
+  const thumbPath = `${directoryPath}/thumbs/${fileName}`;
+  const querySuffix = query ? `?${query}` : "";
+  const hashSuffix = hash ? `#${hash}` : "";
+
+  return `${thumbPath}${querySuffix}${hashSuffix}`;
 }
 
 export function useBlurredImage(imageUrl: string) {
