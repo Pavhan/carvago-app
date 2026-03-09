@@ -11,16 +11,16 @@ import {
   Receipt,
   TrendingUp,
   Truck,
-} from "lucide-react";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { CarDetailImage } from "@/app/cars/[slug]/_components/CarDetailImage";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { formatPrice } from "@/helpers/formatPrice";
-import { getCarBySlug } from "@/lib/cars";
+} from 'lucide-react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { CarDetailImage } from '@/app/cars/[slug]/_components/CarDetailImage';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { formatPrice } from '@/helpers/formatPrice';
+import { getCarBySlug } from '@/lib/cars';
 
 export async function CarDetailContent({ slug }: { slug: string }) {
   const car = await getCarBySlug(slug);

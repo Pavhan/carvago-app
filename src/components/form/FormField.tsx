@@ -1,32 +1,64 @@
+import type { ComponentProps } from "react";
+import { FormLabel } from "@/components/form/FormLabel";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
+type InputProps = ComponentProps<typeof Input>;
 
 type FormFieldProps = {
   label: string;
-  name: string;
-  type?: string;
   error?: string;
-  required?: boolean;
-  defaultValue?: string | number;
-};
+  inputClassName?: string;
+} & Pick<
+  InputProps,
+  | "defaultValue"
+  | "id"
+  | "max"
+  | "min"
+  | "name"
+  | "onChange"
+  | "placeholder"
+  | "required"
+  | "step"
+  | "type"
+  | "value"
+>;
 
 export function FormField({
   label,
   name,
+  id,
   type = "text",
   error,
   required = false,
   defaultValue,
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  placeholder,
+  inputClassName,
 }: FormFieldProps) {
+  const inputId = id ?? name;
+
   return (
     <div className="space-y-2">
-      <Label htmlFor={name}>{label}</Label>
+      <FormLabel htmlFor={inputId} required={required}>
+        {label}
+      </FormLabel>
       <Input
+        className={inputClassName}
         defaultValue={defaultValue}
-        id={name}
+        id={inputId}
+        max={max}
+        min={min}
         name={name}
-        type={type}
+        onChange={onChange}
+        placeholder={placeholder}
         required={required}
+        step={step}
+        type={type}
+        value={value}
       />
       {error && <p className="text-sm text-red-600">{error}</p>}
     </div>

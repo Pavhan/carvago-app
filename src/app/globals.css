@@ -87,7 +87,7 @@
   body {
     @apply bg-background text-foreground;
     background-color: #edf1f8;
-    overflow-x: scroll;
+    overflow-y: scroll;
   }
 }
 
