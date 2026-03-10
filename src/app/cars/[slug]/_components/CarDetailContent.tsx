@@ -20,10 +20,10 @@ export function CarDetailContent({
 
   const content = (
     <Card
-      className="overflow-hidden @container  group-hover:border-primary group-hover:shadow-lg transition-colors  h-full"
+      className="overflow-hidden @container  group-hover:border-primary group-hover:shadow-lg transition-colors  h-full p-4"
       data-testid={!isDetailVariant ? 'car-card' : undefined}
     >
-      <div className="grid gap-6 grid-cols-1 p-4 @md:grid-cols-[50%_1fr]">
+      <div className="grid gap-6 grid-cols-1 @md:grid-cols-[50%_1fr]">
         <CarDetailImage
           alt={car.name}
           loading={isDetailVariant ? 'eager' : 'lazy'}
@@ -66,7 +66,7 @@ export function CarDetailContent({
               </p>
               {isDetailVariant ? (
                 <div className="pt-2">
-                  <Button asChild size="sm" type="button" variant="outline">
+                  <Button asChild type="button" variant="outline">
                     <Link href={`/cars/${car.slug}/edit`}>
                       <Pencil className="h-4 w-4" />
                       Upravit

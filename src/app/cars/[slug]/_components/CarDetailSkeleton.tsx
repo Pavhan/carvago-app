@@ -1,7 +1,9 @@
+import { Card } from "@/components/ui/card";
+
 export function CarDetailSkeleton() {
   return (
-    <div className="animate-pulse overflow-hidden rounded-xl bg-white shadow-sm">
-      <div className="grid grid-cols-1 gap-6 p-4 md:grid-cols-[50%_1fr]">
+    <Card className="h-full overflow-hidden p-4 animate-pulse @container">
+      <div className="grid grid-cols-1 gap-6 @md:grid-cols-[50%_1fr]">
         <div className="h-64 rounded-md bg-neutral-200/80 lg:min-h-64 lg:h-full" />
 
         <div className="flex h-full flex-col space-y-4">
@@ -20,6 +22,6 @@ export function CarDetailSkeleton() {
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

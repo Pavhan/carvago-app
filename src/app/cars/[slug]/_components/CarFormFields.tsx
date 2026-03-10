@@ -2,7 +2,7 @@ import {
   FUEL_OPTIONS,
   TRANSMISSION_OPTIONS,
   toSelectOptions,
-} from "@/components/form/conts";
+} from "@/components/form/const";
 import { FormField } from "@/components/form/FormField";
 import { FormFieldSelect } from "@/components/form/FormFieldSelect";
 

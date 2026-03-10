@@ -1,12 +1,14 @@
-import type { ComponentProps } from "react";
-import { FormLabel } from "@/components/form/FormLabel";
+import type { ComponentProps } from 'react';
+import { FormLabel } from '@/components/form/FormLabel';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 type FormFieldSelectOption = {
   label: string;
@@ -21,10 +23,9 @@ type FormFieldSelectProps = {
   options: FormFieldSelectOption[];
   error?: string;
   id?: string;
-  triggerClassName?: string;
 } & Pick<
   SelectProps,
-  "defaultValue" | "name" | "onValueChange" | "required" | "value"
+  'defaultValue' | 'name' | 'onValueChange' | 'required' | 'value'
 >;
 
 export function FormFieldSelect({
@@ -38,7 +39,6 @@ export function FormFieldSelect({
   error,
   required = false,
   id,
-  triggerClassName,
 }: FormFieldSelectProps) {
   const fieldId = id ?? name;
 
@@ -54,15 +54,18 @@ export function FormFieldSelect({
         required={required}
         value={value}
       >
-        <SelectTrigger className={triggerClassName} id={fieldId}>
+        <SelectTrigger className="w-full" id={fieldId}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
+          <SelectGroup>
+            <SelectLabel>{label}</SelectLabel>
+            {options.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
         </SelectContent>
       </Select>
       {error && <p className="text-sm text-red-600">{error}</p>}

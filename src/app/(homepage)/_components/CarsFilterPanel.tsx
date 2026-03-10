@@ -4,12 +4,13 @@ import { useDebouncedCallback } from '@tanstack/react-pacer';
 import { Search } from 'lucide-react';
 import { useMemo, useState, useTransition } from 'react';
 import { FilteredCarsResult } from '@/app/(homepage)/_components/FilteredCarsResult';
-import type { FuelType, Transmission } from '@/components/form/conts';
+import type { FuelType, Transmission } from '@/components/form/const';
 import {
+  ALL_FILTER_OPTION,
   FUEL_OPTIONS,
   TRANSMISSION_OPTIONS,
   toSelectOptions,
-} from '@/components/form/conts';
+} from '@/components/form/const';
 import { FormFieldSelect } from '@/components/form/FormFieldSelect';
 import { FormLabel } from '@/components/form/FormLabel';
 import { Badge } from '@/components/ui/badge';
@@ -27,6 +28,13 @@ type FilterState = {
   transmission: Transmission | '';
   fuelType: FuelType | '';
 };
+
+const transmissionSelectOptions = [
+  ALL_FILTER_OPTION,
+  ...toSelectOptions(TRANSMISSION_OPTIONS),
+];
+
+const fuelSelectOptions = [ALL_FILTER_OPTION, ...toSelectOptions(FUEL_OPTIONS)];
 
 const EMPTY_FILTERS: FilterState = {
   title: '',
@@ -130,7 +138,7 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
         </div>
       </div>
 
-      <Card className="border-0 bg-white/90 shadow-sm backdrop-blur ">
+      <Card className="border-0 bg-white/90 shadow-sm backdrop-blur p-0">
         <CardContent className="p-5">
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
@@ -162,13 +170,17 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
               onValueChange={(value) =>
                 setFiltersDebounced((current) => ({
                   ...current,
-                  transmission: isTransmission(value) ? value : '',
+                  transmission:
+                    value === ALL_FILTER_OPTION.value
+                      ? ''
+                      : isTransmission(value)
+                        ? value
+                        : '',
                 }))
               }
-              options={toSelectOptions(TRANSMISSION_OPTIONS)}
-              placeholder="Vyber převodovku"
-              triggerClassName="bg-white"
-              value={inputFilters.transmission || undefined}
+              options={transmissionSelectOptions}
+              placeholder={ALL_FILTER_OPTION.label}
+              value={inputFilters.transmission || ALL_FILTER_OPTION.value}
             />
 
             <FormFieldSelect
@@ -178,13 +190,17 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
               onValueChange={(value) =>
                 setFiltersDebounced((current) => ({
                   ...current,
-                  fuelType: isFuelType(value) ? value : '',
+                  fuelType:
+                    value === ALL_FILTER_OPTION.value
+                      ? ''
+                      : isFuelType(value)
+                        ? value
+                        : '',
                 }))
               }
-              options={toSelectOptions(FUEL_OPTIONS)}
-              placeholder="Vyber palivo"
-              triggerClassName="bg-white"
-              value={inputFilters.fuelType || undefined}
+              options={fuelSelectOptions}
+              placeholder={ALL_FILTER_OPTION.label}
+              value={inputFilters.fuelType || ALL_FILTER_OPTION.value}
             />
           </div>
         </CardContent>
