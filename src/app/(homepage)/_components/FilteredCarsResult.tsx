@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { CarListItem } from "@/app/(homepage)/_components/CarListItem";
-import { CarListItemSkeleton } from "@/app/(homepage)/_components/CarListItemSkeleton";
-import { Card, CardContent } from "@/components/ui/card";
-import type { Car } from "@/drizzle/schema";
+import { CarListItemSkeleton } from '@/app/(homepage)/_components/CarListItemSkeleton';
+import { CarDetailContent } from '@/app/cars/[slug]/_components/CarDetailContent';
+import { Card, CardContent } from '@/components/ui/card';
+import type { Car } from '@/drizzle/schema';
 
 type FilteredCarsResultProps = {
   isPending: boolean;
@@ -34,11 +34,13 @@ export function FilteredCarsResult({
         </Card>
       ) : null}
 
-      {!isPending
-        ? items.map((car, index) => (
-            <CarListItem key={car.id} car={car} index={index} />
-          ))
-        : null}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {!isPending
+          ? items.map((car) => (
+              <CarDetailContent key={car.id} car={car} variant="list" />
+            ))
+          : null}
+      </div>
     </>
   );
 }

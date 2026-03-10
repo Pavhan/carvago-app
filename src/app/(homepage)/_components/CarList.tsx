@@ -1,4 +1,4 @@
-import { CarListItem } from '@/app/(homepage)/_components/CarListItem';
+import { CarDetailContent } from '@/app/cars/[slug]/_components/CarDetailContent';
 import { getCars } from '@/lib/cars';
 
 export async function CarList() {
@@ -6,8 +6,8 @@ export async function CarList() {
 
   return (
     <>
-      {carList.map((car, index) => (
-        <CarListItem key={car.id} car={car} index={index} />
+      {carList.map((car) => (
+        <CarDetailContent key={car.id} car={car} variant="list" />
       ))}
     </>
   );

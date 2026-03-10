@@ -105,7 +105,7 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-3xl font-semibold" data-testid="cars-heading">
+        <h2 className="text-2xl font-semibold" data-testid="cars-heading">
           Filtrovat podle
         </h2>
 
@@ -134,7 +134,7 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
 
       <Card className="border-0 bg-white/90 shadow-sm backdrop-blur ">
         <CardContent className="p-5">
-          <div className="grid gap-y-4 gap-x-8 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
               <div className="flex justify-between">
                 <FormLabel htmlFor="title-filter">Nadpis</FormLabel>

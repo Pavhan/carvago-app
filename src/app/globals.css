@@ -96,7 +96,7 @@
   max-width: 1200px;
 }
 
-@keyframes car-list-item-fade {
+/* @keyframes car-list-item-fade {
   from {
     opacity: 0;
   }
@@ -116,4 +116,4 @@
       opacity: 0;
     }
   }
-}
+} */

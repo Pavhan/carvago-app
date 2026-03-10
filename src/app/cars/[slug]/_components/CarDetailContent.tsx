@@ -1,64 +1,95 @@
-import {
-  Cog,
-  Coins,
-  Fuel,
-  Pencil,
-} from 'lucide-react';
+import { Cog, Coins, Fuel, Pencil } from 'lucide-react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { CarDetailImage } from '@/app/cars/[slug]/_components/CarDetailImage';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Car } from '@/drizzle/schema';
 import { formatPrice } from '@/helpers/formatPrice';
-import { getCarBySlug } from '@/lib/cars';
+import { cn } from '@/lib/utils';
 
-export async function CarDetailContent({ slug }: { slug: string }) {
-  const car = await getCarBySlug(slug);
+type CarDetailContentProps = {
+  car: Car;
+  variant: 'detail' | 'list';
+};
 
-  if (!car) {
-    notFound();
-  }
+export function CarDetailContent({
+  car,
+  variant = 'list',
+}: CarDetailContentProps) {
+  const isDetailVariant = variant === 'detail';
 
-  return (
-    <Card className="overflow-hidden">
-      <div className="grid gap-x-4 lg:grid-cols-2">
-        <CarDetailImage alt={car.name} src={car.imageUrl} />
-        <div>
-          <CardHeader className="space-y-4">
-            <CardTitle className="text-2xl" data-testid="car-title">
+  const content = (
+    <Card
+      className="overflow-hidden @container  group-hover:border-primary group-hover:shadow-lg transition-colors  h-full"
+      data-testid={!isDetailVariant ? 'car-card' : undefined}
+    >
+      <div className="grid gap-6 grid-cols-1 p-4 @md:grid-cols-[50%_1fr]">
+        <CarDetailImage
+          alt={car.name}
+          loading={isDetailVariant ? 'eager' : 'lazy'}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          src={car.imageUrl}
+          wrapperClassName="h-64 rounded-md bg-neutral-200/80 lg:min-h-64 lg:h-full"
+        />
+
+        <div className="space-y-4 flex flex-col h-full">
+          <CardHeader className="p-0">
+            <CardTitle
+              className={cn('text-xl', { 'md:text-2xl': isDetailVariant })}
+              data-testid="car-title"
+            >
               {car.name}
             </CardTitle>
           </CardHeader>
 
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 gap-3 text-sm md:text-base">
-              <p className="inline-flex items-center gap-2">
+          <CardContent className="p-0 flex flex-col grow space-y-4">
+            <div className="text-sm md:text-base grow space-y-4">
+              <p className="flex items-center gap-2">
                 <Cog className="h-4 w-4 text-muted-foreground" />
                 Převodovka: {car.transmission}
               </p>
-              <p className="inline-flex items-center gap-2">
+              <p className="flex items-center gap-2">
                 <Fuel className="h-4 w-4 text-muted-foreground" />
                 Palivo: {car.fuelType}
               </p>
             </div>
-            <p
-              className="inline-flex items-center gap-2 text-xl font-semibold"
-              data-testid="car-price"
-            >
-              <Coins className="h-4 w-4 text-muted-foreground" />
-              Cena: {formatPrice(car.price)}
-            </p>
-            <div className="pt-2">
-              <Button asChild size="sm" type="button" variant="outline">
-                <Link href={`/cars/${car.slug}/edit`}>
-                  <Pencil className="h-4 w-4" />
-                  Upravit
-                </Link>
-              </Button>
+
+            <div className="flex justify-between gap-4 items-end">
+              <p
+                className={cn('flex items-center gap-2 font-semibold', {
+                  'text-2xl': isDetailVariant,
+                })}
+                data-testid="car-price"
+              >
+                <Coins className="h-4 w-4 text-muted-foreground" />
+                Cena: {formatPrice(car.price)}
+              </p>
+              {isDetailVariant ? (
+                <div className="pt-2">
+                  <Button asChild size="sm" type="button" variant="outline">
+                    <Link href={`/cars/${car.slug}/edit`}>
+                      <Pencil className="h-4 w-4" />
+                      Upravit
+                    </Link>
+                  </Button>
+                </div>
+              ) : null}
             </div>
           </CardContent>
         </div>
       </div>
     </Card>
+  );
+
+  return isDetailVariant ? (
+    <>{content}</>
+  ) : (
+    <Link
+      href={`/cars/${car.slug}`}
+      data-testid="car-detail-link"
+      className="block group"
+    >
+      {content}
+    </Link>
   );
 }
