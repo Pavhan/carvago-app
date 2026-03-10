@@ -4,11 +4,17 @@ import { useDebouncedCallback } from '@tanstack/react-pacer';
 import { Search } from 'lucide-react';
 import { useMemo, useState, useTransition } from 'react';
 import { FilteredCarsResult } from '@/app/(homepage)/_components/FilteredCarsResult';
-import { FormField } from '@/components/form/FormField';
+import type { FuelType, Transmission } from '@/components/form/conts';
+import {
+  FUEL_OPTIONS,
+  TRANSMISSION_OPTIONS,
+  toSelectOptions,
+} from '@/components/form/conts';
+import { FormFieldSelect } from '@/components/form/FormFieldSelect';
 import { FormLabel } from '@/components/form/FormLabel';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import type { Car } from '@/drizzle/schema';
 
@@ -18,15 +24,23 @@ type CarsFilterPanelProps = {
 
 type FilterState = {
   title: string;
-  minPrice: string;
-  maxPrice: string;
+  transmission: Transmission | '';
+  fuelType: FuelType | '';
 };
 
 const EMPTY_FILTERS: FilterState = {
   title: '',
-  minPrice: '',
-  maxPrice: '',
+  transmission: '',
+  fuelType: '',
 };
+
+function isTransmission(value: string): value is Transmission {
+  return TRANSMISSION_OPTIONS.includes(value as Transmission);
+}
+
+function isFuelType(value: string): value is FuelType {
+  return FUEL_OPTIONS.includes(value as FuelType);
+}
 
 export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
   const [inputFilters, setInputFilters] = useState<FilterState>(EMPTY_FILTERS);
@@ -44,8 +58,6 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
   );
 
   const filteredCars = useMemo(() => {
-    const minPrice = filters.minPrice === '' ? null : Number(filters.minPrice);
-    const maxPrice = filters.maxPrice === '' ? null : Number(filters.maxPrice);
     const title = filters.title.trim().toLocaleLowerCase('cs-CZ');
 
     return cars.filter((car) => {
@@ -54,18 +66,13 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
       }
 
       if (
-        minPrice !== null &&
-        !Number.isNaN(minPrice) &&
-        car.price < minPrice
+        filters.transmission !== '' &&
+        car.transmission !== filters.transmission
       ) {
         return false;
       }
 
-      if (
-        maxPrice !== null &&
-        !Number.isNaN(maxPrice) &&
-        car.price > maxPrice
-      ) {
+      if (filters.fuelType !== '' && car.fuelType !== filters.fuelType) {
         return false;
       }
 
@@ -74,7 +81,9 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
   }, [cars, filters]);
 
   const hasActiveFilters =
-    filters.title !== '' || filters.minPrice !== '' || filters.maxPrice !== '';
+    filters.title !== '' ||
+    filters.transmission !== '' ||
+    filters.fuelType !== '';
 
   function setFiltersDebounced(
     update: (current: FilterState) => FilterState,
@@ -95,33 +104,37 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-3xl font-semibold" data-testid="cars-heading">
-        Auta
-      </h1>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-3xl font-semibold" data-testid="cars-heading">
+          Filtrovat podle
+        </h2>
 
-      <Card className="border-0 bg-white/90 shadow-sm backdrop-blur">
-        <CardHeader className="pb-3 flex flex-row items-center justify-between gap-y-3 space-x-0 space-y-0">
-          <CardTitle className="text-lg">Filtrovat podle</CardTitle>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          {filters.title !== '' ? (
+            <Badge variant="border">Nadpis: {filters.title}</Badge>
+          ) : null}
+          {filters.transmission !== '' ? (
+            <Badge variant="border">Převodovka: {filters.transmission}</Badge>
+          ) : null}
+          {filters.fuelType !== '' ? (
+            <Badge variant="border">Palivo: {filters.fuelType}</Badge>
+          ) : null}
+          {hasActiveFilters ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="xs"
+              onClick={resetFilters}
+            >
+              Smazat filtr
+            </Button>
+          ) : null}
+        </div>
+      </div>
 
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            {filters.title !== '' ? (
-              <Badge variant="secondary">Nadpis: {filters.title}</Badge>
-            ) : null}
-            {filters.minPrice !== '' ? (
-              <Badge variant="secondary">Cena od: {filters.minPrice} Kč</Badge>
-            ) : null}
-            {filters.maxPrice !== '' ? (
-              <Badge variant="secondary">Cena do: {filters.maxPrice} Kč</Badge>
-            ) : null}
-            {hasActiveFilters ? (
-              <Button type="button" variant="ghost" onClick={resetFilters}>
-                Smazat filtr
-              </Button>
-            ) : null}
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-5">
-          <div className="grid gap-y-4 gap-x-8 md:grid-cols-2">
+      <Card className="border-0 bg-white/90 shadow-sm backdrop-blur ">
+        <CardContent className="p-5">
+          <div className="grid gap-y-4 gap-x-8 md:grid-cols-3">
             <div className="space-y-2">
               <div className="flex justify-between">
                 <FormLabel htmlFor="title-filter">Nadpis</FormLabel>
@@ -144,41 +157,37 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
-              <FormField
-                id="min-price"
-                inputClassName="bg-white"
-                label="Cena od (Kč)"
-                min={0}
-                name="minPrice"
-                step={1000}
-                type="number"
-                value={inputFilters.minPrice}
-                onChange={(event) =>
-                  setFiltersDebounced((current) => ({
-                    ...current,
-                    minPrice: event.target.value,
-                  }))
-                }
-              />
+            <FormFieldSelect
+              id="transmission-filter"
+              label="Převodovka"
+              name="transmission"
+              onValueChange={(value) =>
+                setFiltersDebounced((current) => ({
+                  ...current,
+                  transmission: isTransmission(value) ? value : '',
+                }))
+              }
+              options={toSelectOptions(TRANSMISSION_OPTIONS)}
+              placeholder="Vyber převodovku"
+              triggerClassName="bg-white"
+              value={inputFilters.transmission || undefined}
+            />
 
-              <FormField
-                id="max-price"
-                inputClassName="bg-white"
-                label="Cena do (Kč)"
-                min={0}
-                name="maxPrice"
-                step={1000}
-                type="number"
-                value={inputFilters.maxPrice}
-                onChange={(event) =>
-                  setFiltersDebounced((current) => ({
-                    ...current,
-                    maxPrice: event.target.value,
-                  }))
-                }
-              />
-            </div>
+            <FormFieldSelect
+              id="fuel-type-filter"
+              label="Palivo"
+              name="fuelType"
+              onValueChange={(value) =>
+                setFiltersDebounced((current) => ({
+                  ...current,
+                  fuelType: isFuelType(value) ? value : '',
+                }))
+              }
+              options={toSelectOptions(FUEL_OPTIONS)}
+              placeholder="Vyber palivo"
+              triggerClassName="bg-white"
+              value={inputFilters.fuelType || undefined}
+            />
           </div>
         </CardContent>
       </Card>

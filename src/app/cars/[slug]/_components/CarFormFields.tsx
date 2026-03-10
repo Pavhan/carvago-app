@@ -1,17 +1,10 @@
+import {
+  FUEL_OPTIONS,
+  TRANSMISSION_OPTIONS,
+  toSelectOptions,
+} from "@/components/form/conts";
 import { FormField } from "@/components/form/FormField";
 import { FormFieldSelect } from "@/components/form/FormFieldSelect";
-
-type Transmission = "Manuál" | "Automat";
-type FuelType = "Benzín" | "Nafta" | "Elektro" | "Hybrid";
-
-const TRANSMISSION_OPTIONS: Transmission[] = ["Manuál", "Automat"];
-const FUEL_OPTIONS: FuelType[] = ["Benzín", "Nafta", "Elektro", "Hybrid"];
-
-const toSelectOptions = (values: string[]) =>
-  values.map((value) => ({
-    label: value,
-    value,
-  }));
 
 export type CarFormValues = {
   name: string;

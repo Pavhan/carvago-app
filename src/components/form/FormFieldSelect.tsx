@@ -1,3 +1,4 @@
+import type { ComponentProps } from "react";
 import { FormLabel } from "@/components/form/FormLabel";
 import {
   Select,
@@ -12,16 +13,19 @@ type FormFieldSelectOption = {
   value: string;
 };
 
+type SelectProps = ComponentProps<typeof Select>;
+
 type FormFieldSelectProps = {
   label: string;
-  name: string;
   placeholder: string;
   options: FormFieldSelectOption[];
-  defaultValue?: string;
   error?: string;
-  required?: boolean;
   id?: string;
-};
+  triggerClassName?: string;
+} & Pick<
+  SelectProps,
+  "defaultValue" | "name" | "onValueChange" | "required" | "value"
+>;
 
 export function FormFieldSelect({
   label,
@@ -29,9 +33,12 @@ export function FormFieldSelect({
   placeholder,
   options,
   defaultValue,
+  value,
+  onValueChange,
   error,
   required = false,
   id,
+  triggerClassName,
 }: FormFieldSelectProps) {
   const fieldId = id ?? name;
 
@@ -40,8 +47,14 @@ export function FormFieldSelect({
       <FormLabel htmlFor={fieldId} required={required}>
         {label}
       </FormLabel>
-      <Select defaultValue={defaultValue} name={name} required={required}>
-        <SelectTrigger id={fieldId}>
+      <Select
+        defaultValue={defaultValue}
+        name={name}
+        onValueChange={onValueChange}
+        required={required}
+        value={value}
+      >
+        <SelectTrigger className={triggerClassName} id={fieldId}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
