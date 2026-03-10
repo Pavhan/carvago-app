@@ -7,10 +7,15 @@ import { ActiveFilterBadge } from '@/app/(homepage)/_components/ActiveFilterBadg
 import { FilteredCarsResult } from '@/app/(homepage)/_components/FilteredCarsResult';
 import { FormField } from '@/components/form/FormField';
 import { FormLabel } from '@/components/form/FormLabel';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import type { Car } from '@/drizzle/schema';
+import { Button } from '@/components/ui/button';
 
 type CarsFilterPanelProps = {
   cars: Car[];
@@ -57,7 +62,7 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
       if (
         minPrice !== null &&
         !Number.isNaN(minPrice) &&
-        car.totalPriceCzk < minPrice
+        car.price < minPrice
       ) {
         return false;
       }
@@ -65,7 +70,7 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
       if (
         maxPrice !== null &&
         !Number.isNaN(maxPrice) &&
-        car.totalPriceCzk > maxPrice
+        car.price > maxPrice
       ) {
         return false;
       }
@@ -89,148 +94,146 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
 
   return (
     <div className="space-y-5">
-      <div className="flex items-center justify-between gap-3">
-        <h1 className="text-3xl font-semibold" data-testid="cars-heading">
-          Auta
-        </h1>
-        <Button
-          type="button"
-          variant="outline"
-          className="inline-flex items-center gap-2"
-          onClick={() => setIsFiltersOpen((current) => !current)}
-          aria-expanded={isFiltersOpen}
-          aria-controls="cars-filters-panel"
-        >
-          <SlidersHorizontal className="h-4 w-4" />
-          {isFiltersOpen ? 'Skrýt filtry' : 'Zobrazit filtry'}
-          <ChevronDown
-            className={`h-4 w-4 transition-transform ${isFiltersOpen ? 'rotate-180' : ''}`}
-          />
-        </Button>
-      </div>
+      <Collapsible open={isFiltersOpen}>
+        <CollapsibleTrigger asChild>
+          <div className="flex items-center justify-between gap-3">
+            <h1 className="text-3xl font-semibold" data-testid="cars-heading">
+              Auta
+            </h1>
+            <Button
+              type="button"
+              variant="outline"
+              className="inline-flex items-center gap-2"
+              onClick={() => setIsFiltersOpen((current) => !current)}
+              aria-expanded={isFiltersOpen}
+              aria-controls="cars-filters-panel"
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              {isFiltersOpen ? 'Skrýt filtry' : 'Zobrazit filtry'}
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${isFiltersOpen ? 'rotate-180' : ''}`}
+              />
+            </Button>
+          </div>
+        </CollapsibleTrigger>
 
-      {isFiltersOpen ? (
-        <Card
-          id="cars-filters-panel"
-          className="border-0 bg-white/90 shadow-sm backdrop-blur"
-        >
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Filtrovat podle</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <FormLabel htmlFor="title-filter">Nadpis</FormLabel>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="title-filter"
-                    className="bg-white pl-10"
-                    value={inputFilters.title}
-                    placeholder="Např. Audi, Tesla..."
+        <CollapsibleContent id="cars-filters-panel" className="space-y-5 pt-5">
+          <Card className="border-0 bg-white/90 shadow-sm backdrop-blur">
+            <CardHeader className="pb-3 flex flex-row items-center justify-between gap-y-3 space-x-0 space-y-0">
+              <CardTitle className="text-lg">Filtrovat podle</CardTitle>
+
+              {hasActiveFilters ? (
+                <div className="flex items-center justify-between">
+                  <p
+                    className="text-sm text-muted-foreground"
+                    aria-live="polite"
+                  >
+                    Nalezeno aut: {filteredCars.length}
+                  </p>
+                </div>
+              ) : null}
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <div className="grid gap-y-4 gap-x-8 md:grid-cols-2">
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <FormLabel htmlFor="title-filter">Nadpis</FormLabel>
+                    {filters.title !== '' ? (
+                      <ActiveFilterBadge
+                        label="nadpis"
+                        onRemove={() =>
+                          setFiltersDebounced((current) => ({
+                            ...current,
+                            title: '',
+                          }))
+                        }
+                      />
+                    ) : null}
+                  </div>
+
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      id="title-filter"
+                      className="bg-white pl-10"
+                      value={inputFilters.title}
+                      placeholder="Např. Audi, Tesla..."
+                      onChange={(event) =>
+                        setFiltersDebounced((current) => ({
+                          ...current,
+                          title: event.target.value,
+                        }))
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
+                  <FormField
+                    id="min-price"
+                    inputClassName="bg-white"
+                    label="Cena od (Kč)"
+                    min={0}
+                    name="minPrice"
+                    step={1000}
+                    type="number"
+                    value={inputFilters.minPrice}
                     onChange={(event) =>
                       setFiltersDebounced((current) => ({
                         ...current,
-                        title: event.target.value,
+                        minPrice: event.target.value,
                       }))
                     }
-                  />
+                  >
+                    {filters.minPrice !== '' ? (
+                      <ActiveFilterBadge
+                        label="cena od"
+                        onRemove={() =>
+                          setFiltersDebounced((current) => ({
+                            ...current,
+                            minPrice: '',
+                          }))
+                        }
+                      />
+                    ) : null}
+                  </FormField>
+
+                  <FormField
+                    id="max-price"
+                    inputClassName="bg-white"
+                    label="Cena do (Kč)"
+                    min={0}
+                    name="maxPrice"
+                    step={1000}
+                    type="number"
+                    value={inputFilters.maxPrice}
+                    onChange={(event) =>
+                      setFiltersDebounced((current) => ({
+                        ...current,
+                        maxPrice: event.target.value,
+                      }))
+                    }
+                  >
+                    {filters.maxPrice !== '' ? (
+                      <ActiveFilterBadge
+                        label="Cena do"
+                        onRemove={() =>
+                          setFiltersDebounced((current) => ({
+                            ...current,
+                            maxPrice: '',
+                          }))
+                        }
+                      />
+                    ) : null}
+                  </FormField>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </CollapsibleContent>
+      </Collapsible>
 
-              <div className="grid grid-cols-2 gap-3">
-                <FormField
-                  id="min-price"
-                  inputClassName="bg-white"
-                  label="Cena od (Kč)"
-                  min={0}
-                  name="minPrice"
-                  step={1000}
-                  type="number"
-                  value={inputFilters.minPrice}
-                  onChange={(event) =>
-                    setFiltersDebounced((current) => ({
-                      ...current,
-                      minPrice: event.target.value,
-                    }))
-                  }
-                />
-                <FormField
-                  id="max-price"
-                  inputClassName="bg-white"
-                  label="Cena do (Kč)"
-                  min={0}
-                  name="maxPrice"
-                  step={1000}
-                  type="number"
-                  value={inputFilters.maxPrice}
-                  onChange={(event) =>
-                    setFiltersDebounced((current) => ({
-                      ...current,
-                      maxPrice: event.target.value,
-                    }))
-                  }
-                />
-              </div>
-            </div>
-            {hasActiveFilters ? (
-              <div className="flex flex-wrap items-center gap-2">
-                {filters.title !== '' ? (
-                  <ActiveFilterBadge
-                    label={`Nadpis: ${filters.title}`}
-                    onRemove={() =>
-                      setFiltersDebounced((current) => ({
-                        ...current,
-                        title: '',
-                      }))
-                    }
-                  />
-                ) : null}
-
-                {filters.minPrice !== '' ? (
-                  <ActiveFilterBadge
-                    label={`Cena od: ${filters.minPrice} Kč`}
-                    onRemove={() =>
-                      setFiltersDebounced((current) => ({
-                        ...current,
-                        minPrice: '',
-                      }))
-                    }
-                  />
-                ) : null}
-
-                {filters.maxPrice !== '' ? (
-                  <ActiveFilterBadge
-                    label={`Cena do: ${filters.maxPrice} Kč`}
-                    onRemove={() =>
-                      setFiltersDebounced((current) => ({
-                        ...current,
-                        maxPrice: '',
-                      }))
-                    }
-                  />
-                ) : null}
-
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="underline"
-                  onClick={() => setFiltersDebounced(() => EMPTY_FILTERS)}
-                >
-                  Zrušit vše
-                </Button>
-              </div>
-            ) : null}
-          </CardContent>
-        </Card>
-      ) : null}
-
-      <FilteredCarsResult
-        isPending={isPending}
-        items={filteredCars}
-        showFilterResult={hasActiveFilters}
-      />
+      <FilteredCarsResult isPending={isPending} items={filteredCars} />
     </div>
   );
 }

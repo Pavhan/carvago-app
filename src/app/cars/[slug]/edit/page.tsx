@@ -24,20 +24,9 @@ export default async function CarEditPage({
         initialValues={{
           name: car.name,
           imageUrl: car.imageUrl,
-          mileageKm: car.mileageKm,
-          firstRegistration: car.firstRegistration,
-          powerKw: car.powerKw,
-          powerHp: car.powerHp,
           transmission: car.transmission,
           fuelType: car.fuelType,
-          locationCountry: car.locationCountry,
-          deliveryPriceCzk: car.deliveryPriceCzk,
-          monthlyPaymentCzk: car.monthlyPaymentCzk,
-          totalPriceCzk: car.totalPriceCzk,
-          vatPriceCzk: car.vatPriceCzk,
-          priceRatingLabel: car.priceRatingLabel,
-          partnerLabel: car.partnerLabel,
-          equipmentTags: car.equipmentTags.join(", "),
+          price: car.price,
         }}
         slug={car.slug}
       />

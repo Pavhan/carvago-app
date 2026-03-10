@@ -30,20 +30,9 @@ export async function updateCarAction(
     slug: formData.get("slug"),
     name: formData.get("name"),
     imageUrl: formData.get("imageUrl"),
-    mileageKm: formData.get("mileageKm"),
-    firstRegistration: formData.get("firstRegistration"),
-    powerKw: formData.get("powerKw"),
-    powerHp: formData.get("powerHp"),
     transmission: formData.get("transmission"),
     fuelType: formData.get("fuelType"),
-    locationCountry: formData.get("locationCountry"),
-    deliveryPriceCzk: formData.get("deliveryPriceCzk"),
-    monthlyPaymentCzk: formData.get("monthlyPaymentCzk"),
-    totalPriceCzk: formData.get("totalPriceCzk"),
-    vatPriceCzk: formData.get("vatPriceCzk"),
-    priceRatingLabel: formData.get("priceRatingLabel"),
-    partnerLabel: formData.get("partnerLabel"),
-    equipmentTags: formData.get("equipmentTags"),
+    price: formData.get("price"),
   });
 
   if (!parsed.success) {
@@ -60,20 +49,9 @@ export async function updateCarAction(
       .set({
         name: parsed.data.name,
         imageUrl: parsed.data.imageUrl,
-        mileageKm: parsed.data.mileageKm,
-        firstRegistration: parsed.data.firstRegistration,
-        powerKw: parsed.data.powerKw,
-        powerHp: parsed.data.powerHp,
         transmission: parsed.data.transmission,
         fuelType: parsed.data.fuelType,
-        locationCountry: parsed.data.locationCountry,
-        deliveryPriceCzk: parsed.data.deliveryPriceCzk,
-        monthlyPaymentCzk: parsed.data.monthlyPaymentCzk,
-        totalPriceCzk: parsed.data.totalPriceCzk,
-        vatPriceCzk: parsed.data.vatPriceCzk,
-        priceRatingLabel: parsed.data.priceRatingLabel,
-        partnerLabel: parsed.data.partnerLabel,
-        equipmentTags: parsed.data.equipmentTags,
+        price: parsed.data.price,
       })
       .where(eq(cars.id, parsed.data.id))
       .returning({ id: cars.id });

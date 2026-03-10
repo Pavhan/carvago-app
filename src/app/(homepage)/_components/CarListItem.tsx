@@ -1,13 +1,11 @@
 'use client';
 
-import { Coins, Fuel, Gauge } from 'lucide-react';
+import { Cog, Coins, Fuel } from 'lucide-react';
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { BlurredImage } from '@/components/image/BlurredImage';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Car } from '@/drizzle/schema';
-import { formatNumber } from '@/helpers/formatNumber';
 import { formatPrice } from '@/helpers/formatPrice';
 
 type CarListItemProps = {
@@ -44,17 +42,10 @@ export function CarListItem({ car, index }: CarListItemProps) {
               <CardTitle data-testid="car-title">{car.name}</CardTitle>
             </CardHeader>
             <CardContent className="p-0 text-sm space-y-4">
-              <div className="flex flex-wrap gap-2">
-                {car.equipmentTags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-              <div className="flex items-center flex-wrap justify-between gap-3 ">
+              <div className="flex items-center flex-wrap justify-between gap-3">
                 <span className="inline-flex items-center gap-1">
-                  <Gauge className="h-3.5 w-3.5 text-muted-foreground" />
-                  {formatNumber(car.mileageKm)} km
+                  <Cog className="h-3.5 w-3.5 text-muted-foreground" />
+                  {car.transmission}
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <Fuel className="h-3.5 w-3.5 text-muted-foreground" />
@@ -62,7 +53,7 @@ export function CarListItem({ car, index }: CarListItemProps) {
                 </span>
                 <span className="inline-flex items-center gap-1 font-bold text-lg">
                   <Coins className="h-3.5 w-3.5 text-muted-foreground" />
-                  {formatPrice(car.totalPriceCzk)}
+                  {formatPrice(car.price)}
                 </span>
               </div>
             </CardContent>

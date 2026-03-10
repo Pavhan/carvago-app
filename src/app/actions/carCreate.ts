@@ -20,20 +20,9 @@ export async function createCarAction(
   const parsed = createCarSchema.safeParse({
     name: formData.get("name"),
     imageUrl: formData.get("imageUrl"),
-    mileageKm: formData.get("mileageKm"),
-    firstRegistration: formData.get("firstRegistration"),
-    powerKw: formData.get("powerKw"),
-    powerHp: formData.get("powerHp"),
     transmission: formData.get("transmission"),
     fuelType: formData.get("fuelType"),
-    locationCountry: formData.get("locationCountry"),
-    deliveryPriceCzk: formData.get("deliveryPriceCzk"),
-    monthlyPaymentCzk: formData.get("monthlyPaymentCzk"),
-    totalPriceCzk: formData.get("totalPriceCzk"),
-    vatPriceCzk: formData.get("vatPriceCzk"),
-    priceRatingLabel: formData.get("priceRatingLabel"),
-    partnerLabel: formData.get("partnerLabel"),
-    equipmentTags: formData.get("equipmentTags"),
+    price: formData.get("price"),
   });
 
   if (!parsed.success) {

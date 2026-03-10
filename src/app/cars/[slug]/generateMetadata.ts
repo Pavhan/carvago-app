@@ -4,13 +4,11 @@ import { getCarBySlug } from "@/lib/cars";
 const CARVAGO_BASE_URL = "https://carvago.cz";
 
 function createCarDescription(car: {
-  mileageKm: number;
-  firstRegistration: string;
   fuelType: string;
   transmission: string;
-  powerKw: number;
+  price: number;
 }) {
-  return `${car.mileageKm} km, první registrace ${car.firstRegistration}, ${car.fuelType}, ${car.transmission}, ${car.powerKw} kW.`;
+  return `Převodovka: ${car.transmission}, palivo: ${car.fuelType}, cena: ${car.price} Kč.`;
 }
 
 export async function generateMetadata({

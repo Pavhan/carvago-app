@@ -1,5 +1,4 @@
-import { X } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { X } from 'lucide-react';
 
 type ActiveFilterBadgeProps = {
   label: string;
@@ -8,16 +7,14 @@ type ActiveFilterBadgeProps = {
 
 export function ActiveFilterBadge({ label, onRemove }: ActiveFilterBadgeProps) {
   return (
-    <Badge variant="secondary" className="h-7 gap-1 rounded-full px-2">
-      {label}
-      <button
-        type="button"
-        aria-label={`Zrušit filtr ${label}`}
-        className="inline-flex rounded-full p-0.5 hover:bg-black/10"
-        onClick={onRemove}
-      >
-        <X className="h-3 w-3" />
-      </button>
-    </Badge>
+    <button
+      type="button"
+      aria-label={`Zrušit filtr ${label}`}
+      className="inline-flex items-center gap-1 hover:underline cursor-pointer text-sm text-red-600"
+      onClick={onRemove}
+    >
+      <X className="h-3 w-3" />
+      Zrušit
+    </button>
   );
 }

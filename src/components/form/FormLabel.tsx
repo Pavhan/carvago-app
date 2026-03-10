@@ -15,7 +15,7 @@ export function FormLabel({
 }: FormLabelProps) {
   return (
     <Label
-      className={cn('mb-2 block text-sm font-bold text-gray-500', className)}
+      className={cn('block text-sm font-bold text-gray-500', className)}
       htmlFor={htmlFor}
     >
       {children}

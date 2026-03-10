@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+const TRANSMISSION_OPTIONS = ["Manuál", "Automat"] as const;
+const FUEL_OPTIONS = ["Benzín", "Nafta", "Elektro", "Hybrid"] as const;
+
 function isValidImageUrl(value: string) {
   if (value.startsWith("/images/cars/")) {
     return true;
@@ -22,30 +25,13 @@ export const createCarSchema = z.object({
       isValidImageUrl,
       "URL obrázku musí být validní URL nebo lokální cesta /images/cars/...",
     ),
-  mileageKm: z.coerce.number().int().nonnegative(),
-  firstRegistration: z
-    .string()
-    .regex(/^(0[1-9]|1[0-2])\/\d{4}$/, "Použij formát MM/RRRR."),
-  powerKw: z.coerce.number().int().positive(),
-  powerHp: z.coerce.number().int().positive(),
-  transmission: z.string().min(2),
-  fuelType: z.string().min(2),
-  locationCountry: z.string().min(2),
-  deliveryPriceCzk: z.coerce.number().int().nonnegative(),
-  monthlyPaymentCzk: z.coerce.number().int().nonnegative(),
-  totalPriceCzk: z.coerce.number().int().positive(),
-  vatPriceCzk: z.coerce.number().int().positive(),
-  priceRatingLabel: z.string().min(2),
-  partnerLabel: z.string().min(2),
-  equipmentTags: z
-    .string()
-    .min(2)
-    .transform((value) =>
-      value
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean),
-    ),
+  transmission: z.enum(TRANSMISSION_OPTIONS, {
+    message: "Převodovka musí být Manuál nebo Automat.",
+  }),
+  fuelType: z.enum(FUEL_OPTIONS, {
+    message: "Palivo musí být Benzín, Nafta, Elektro nebo Hybrid.",
+  }),
+  price: z.coerce.number().int().positive("Cena musí být kladné číslo."),
 });
 
 export type CreateCarInput = z.infer<typeof createCarSchema>;
