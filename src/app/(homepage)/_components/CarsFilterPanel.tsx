@@ -110,14 +110,12 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
         </h2>
 
         <div className="flex flex-wrap items-center justify-end gap-2">
-          {filters.title !== '' ? (
-            <Badge variant="border">Nadpis: {filters.title}</Badge>
-          ) : null}
+          {filters.title !== '' ? <Badge>Nadpis: {filters.title}</Badge> : null}
           {filters.transmission !== '' ? (
-            <Badge variant="border">Převodovka: {filters.transmission}</Badge>
+            <Badge>Převodovka: {filters.transmission}</Badge>
           ) : null}
           {filters.fuelType !== '' ? (
-            <Badge variant="border">Palivo: {filters.fuelType}</Badge>
+            <Badge>Palivo: {filters.fuelType}</Badge>
           ) : null}
           {hasActiveFilters ? (
             <Button
