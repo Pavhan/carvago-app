@@ -8,7 +8,6 @@ type FormFieldProps = {
   label: string;
   error?: string;
   inputClassName?: string;
-  children?: React.ReactNode;
 } & Pick<
   InputProps,
   | 'defaultValue'
@@ -39,18 +38,14 @@ export function FormField({
   step,
   placeholder,
   inputClassName,
-  children,
 }: FormFieldProps) {
   const inputId = id ?? name;
 
   return (
     <div className="space-y-2">
-      <div className="flex justify-between">
-        <FormLabel htmlFor={inputId} required={required}>
-          {label}
-        </FormLabel>
-        {children}
-      </div>
+      <FormLabel htmlFor={inputId} required={required}>
+        {label}
+      </FormLabel>
       <Input
         className={inputClassName}
         defaultValue={defaultValue}
