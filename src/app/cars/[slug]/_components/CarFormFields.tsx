@@ -1,11 +1,17 @@
 import { FormField } from "@/components/form/FormField";
-import { FormLabel } from "@/components/form/FormLabel";
+import { FormFieldSelect } from "@/components/form/FormFieldSelect";
 
 type Transmission = "Manuál" | "Automat";
 type FuelType = "Benzín" | "Nafta" | "Elektro" | "Hybrid";
 
 const TRANSMISSION_OPTIONS: Transmission[] = ["Manuál", "Automat"];
 const FUEL_OPTIONS: FuelType[] = ["Benzín", "Nafta", "Elektro", "Hybrid"];
+
+const toSelectOptions = (values: string[]) =>
+  values.map((value) => ({
+    label: value,
+    value,
+  }));
 
 export type CarFormValues = {
   name: string;
@@ -20,7 +26,10 @@ type CarFormFieldsProps = {
   defaultValues?: CarFormValues;
 };
 
-export function CarFormFields({ fieldErrors, defaultValues }: CarFormFieldsProps) {
+export function CarFormFields({
+  fieldErrors,
+  defaultValues,
+}: CarFormFieldsProps) {
   return (
     <>
       <FormField
@@ -39,55 +48,25 @@ export function CarFormFields({ fieldErrors, defaultValues }: CarFormFieldsProps
         required
       />
 
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <FormLabel htmlFor="transmission" required>
-            Převodovka
-          </FormLabel>
-        </div>
-        <select
-          className="border-input bg-background ring-offset-background focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-          defaultValue={defaultValues?.transmission ?? ""}
-          id="transmission"
-          name="transmission"
-          required
-        >
-          <option value="">Vyber převodovku</option>
-          {TRANSMISSION_OPTIONS.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        {fieldErrors?.transmission?.[0] && (
-          <p className="text-sm text-red-600">{fieldErrors.transmission[0]}</p>
-        )}
-      </div>
+      <FormFieldSelect
+        defaultValue={defaultValues?.transmission}
+        error={fieldErrors?.transmission?.[0]}
+        label="Převodovka"
+        name="transmission"
+        options={toSelectOptions(TRANSMISSION_OPTIONS)}
+        placeholder="Vyber převodovku"
+        required
+      />
 
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <FormLabel htmlFor="fuelType" required>
-            Palivo
-          </FormLabel>
-        </div>
-        <select
-          className="border-input bg-background ring-offset-background focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-          defaultValue={defaultValues?.fuelType ?? ""}
-          id="fuelType"
-          name="fuelType"
-          required
-        >
-          <option value="">Vyber palivo</option>
-          {FUEL_OPTIONS.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        {fieldErrors?.fuelType?.[0] && (
-          <p className="text-sm text-red-600">{fieldErrors.fuelType[0]}</p>
-        )}
-      </div>
+      <FormFieldSelect
+        defaultValue={defaultValues?.fuelType}
+        error={fieldErrors?.fuelType?.[0]}
+        label="Palivo"
+        name="fuelType"
+        options={toSelectOptions(FUEL_OPTIONS)}
+        placeholder="Vyber palivo"
+        required
+      />
 
       <FormField
         defaultValue={defaultValues?.price}

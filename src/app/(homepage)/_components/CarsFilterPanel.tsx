@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useDebouncedCallback } from "@tanstack/react-pacer";
-import { Search } from "lucide-react";
-import { useMemo, useState, useTransition } from "react";
-import { FilteredCarsResult } from "@/app/(homepage)/_components/FilteredCarsResult";
-import { FormField } from "@/components/form/FormField";
-import { FormLabel } from "@/components/form/FormLabel";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import type { Car } from "@/drizzle/schema";
+import { useDebouncedCallback } from '@tanstack/react-pacer';
+import { Search } from 'lucide-react';
+import { useMemo, useState, useTransition } from 'react';
+import { FilteredCarsResult } from '@/app/(homepage)/_components/FilteredCarsResult';
+import { FormField } from '@/components/form/FormField';
+import { FormLabel } from '@/components/form/FormLabel';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import type { Car } from '@/drizzle/schema';
 
 type CarsFilterPanelProps = {
   cars: Car[];
@@ -23,9 +23,9 @@ type FilterState = {
 };
 
 const EMPTY_FILTERS: FilterState = {
-  title: "",
-  minPrice: "",
-  maxPrice: "",
+  title: '',
+  minPrice: '',
+  maxPrice: '',
 };
 
 export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
@@ -44,12 +44,12 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
   );
 
   const filteredCars = useMemo(() => {
-    const minPrice = filters.minPrice === "" ? null : Number(filters.minPrice);
-    const maxPrice = filters.maxPrice === "" ? null : Number(filters.maxPrice);
-    const title = filters.title.trim().toLocaleLowerCase("cs-CZ");
+    const minPrice = filters.minPrice === '' ? null : Number(filters.minPrice);
+    const maxPrice = filters.maxPrice === '' ? null : Number(filters.maxPrice);
+    const title = filters.title.trim().toLocaleLowerCase('cs-CZ');
 
     return cars.filter((car) => {
-      if (title && !car.name.toLocaleLowerCase("cs-CZ").includes(title)) {
+      if (title && !car.name.toLocaleLowerCase('cs-CZ').includes(title)) {
         return false;
       }
 
@@ -74,7 +74,7 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
   }, [cars, filters]);
 
   const hasActiveFilters =
-    filters.title !== "" || filters.minPrice !== "" || filters.maxPrice !== "";
+    filters.title !== '' || filters.minPrice !== '' || filters.maxPrice !== '';
 
   function setFiltersDebounced(
     update: (current: FilterState) => FilterState,
@@ -104,17 +104,17 @@ export function CarsFilterPanel({ cars }: CarsFilterPanelProps) {
           <CardTitle className="text-lg">Filtrovat podle</CardTitle>
 
           <div className="flex flex-wrap items-center justify-end gap-2">
-            {filters.title !== "" ? (
+            {filters.title !== '' ? (
               <Badge variant="secondary">Nadpis: {filters.title}</Badge>
             ) : null}
-            {filters.minPrice !== "" ? (
+            {filters.minPrice !== '' ? (
               <Badge variant="secondary">Cena od: {filters.minPrice} Kč</Badge>
             ) : null}
-            {filters.maxPrice !== "" ? (
+            {filters.maxPrice !== '' ? (
               <Badge variant="secondary">Cena do: {filters.maxPrice} Kč</Badge>
             ) : null}
             {hasActiveFilters ? (
-              <Button type="button" variant="outline" onClick={resetFilters}>
+              <Button type="button" variant="ghost" onClick={resetFilters}>
                 Smazat filtr
               </Button>
             ) : null}
