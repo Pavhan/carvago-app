@@ -23,14 +23,15 @@ export function BlurredImage({
   loading = "lazy",
 }: BlurredImageProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const [shouldRenderImage, setShouldRenderImage] = useState(
-    loading === "eager",
-  );
+  const [isInViewport, setIsInViewport] = useState(loading === "eager");
   const { isLoaded, smallImageUrl, handleLoad } = useBlurredImage(src);
+  const supportsIntersectionObserver =
+    typeof IntersectionObserver !== "undefined";
+  const shouldRenderImage =
+    loading === "eager" || !supportsIntersectionObserver || isInViewport;
 
   useEffect(() => {
     if (loading === "eager") {
-      setShouldRenderImage(true);
       return;
     }
 
@@ -39,8 +40,7 @@ export function BlurredImage({
       return;
     }
 
-    if (typeof IntersectionObserver === "undefined") {
-      setShouldRenderImage(true);
+    if (!supportsIntersectionObserver) {
       return;
     }
 
@@ -51,7 +51,7 @@ export function BlurredImage({
           return;
         }
 
-        setShouldRenderImage(true);
+        setIsInViewport(true);
         observer.disconnect();
       },
       {
@@ -66,7 +66,7 @@ export function BlurredImage({
     return () => {
       observer.disconnect();
     };
-  }, [loading]);
+  }, [loading, supportsIntersectionObserver]);
 
   return (
     <div
