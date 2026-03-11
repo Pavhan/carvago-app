@@ -1,23 +1,23 @@
-'use server';
+"use server";
 
-import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { z } from 'zod';
-import { db } from '@/drizzle/db';
-import { cars } from '@/drizzle/schema';
-import { createCarSchema } from '@/lib/validations/car';
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { db } from "@/drizzle/db";
+import { cars } from "@/drizzle/schema";
+import { createCarSchema } from "@/lib/validations/car";
 
 export type UpdateCarActionState = {
-  status?: 'success' | 'error';
+  success?: boolean;
+  status?: "success" | "error";
   message?: string;
   fieldErrors?: Record<string, string[]>;
 };
 
 const updateCarSchema = z
   .object({
-    id: z.coerce.number().int().positive('Neplatné ID auta.'),
-    slug: z.string().min(1, 'Neplatný slug auta.'),
+    id: z.coerce.number().int().positive("Neplatné ID auta."),
+    slug: z.string().min(1, "Neplatný slug auta."),
   })
   .merge(createCarSchema);
 
@@ -26,18 +26,19 @@ export async function updateCarAction(
   formData: FormData,
 ): Promise<UpdateCarActionState> {
   const parsed = updateCarSchema.safeParse({
-    id: formData.get('id'),
-    slug: formData.get('slug'),
-    name: formData.get('name'),
-    imageUrl: formData.get('imageUrl'),
-    transmission: formData.get('transmission'),
-    fuelType: formData.get('fuelType'),
-    price: formData.get('price'),
+    id: formData.get("id"),
+    slug: formData.get("slug"),
+    name: formData.get("name"),
+    imageUrl: formData.get("imageUrl"),
+    transmission: formData.get("transmission"),
+    fuelType: formData.get("fuelType"),
+    price: formData.get("price"),
   });
 
   if (!parsed.success) {
     return {
-      status: 'error',
+      success: false,
+      status: "error",
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }
@@ -57,19 +58,24 @@ export async function updateCarAction(
 
     if (updatedRows.length === 0) {
       return {
-        status: 'error',
-        message: 'Auto se nepodařilo najít.',
+        success: false,
+        status: "error",
+        message: "Auto se nepodařilo najít.",
       };
     }
 
-    revalidatePath('/');
+    revalidatePath("/");
     revalidatePath(`/cars/${parsed.data.slug}`);
   } catch {
     return {
-      status: 'error',
-      message: 'Aktualizace se nezdařila. Zkuste to znovu.',
+      success: false,
+      status: "error",
+      message: "Aktualizace se nezdařila. Zkuste to znovu.",
     };
   }
 
-  redirect(`/cars/${parsed.data.slug}?updated=1`);
+  return {
+    success: true,
+    status: "success",
+  };
 }

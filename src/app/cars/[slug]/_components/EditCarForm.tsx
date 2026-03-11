@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useActionState } from 'react';
+import Link from "next/link";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import {
   type UpdateCarActionState,
   updateCarAction,
-} from '@/app/actions/carUpdate';
-import { Card, CardContent } from '@/components/ui/card';
-import { LoadingButton } from '@/components/ui/loading-button';
-import { CarFormFields, type CarFormValues } from './CarFormFields';
+} from "@/app/actions/carUpdate";
+import { Card, CardContent } from "@/components/ui/card";
+import { LoadingButton } from "@/components/ui/loading-button";
+import { CarFormFields, type CarFormValues } from "./CarFormFields";
 
 type EditCarFormProps = {
   carId: number;
@@ -20,6 +21,16 @@ const initialState: UpdateCarActionState = {};
 
 export function EditCarForm({ carId, slug, initialValues }: EditCarFormProps) {
   const [state, formAction] = useActionState(updateCarAction, initialState);
+
+  useEffect(() => {
+    if (!state.success) {
+      return;
+    }
+
+    toast.success("Auto bylo úspěšně aktualizováno.", {
+      id: "car-updated-success",
+    });
+  }, [state.success]);
 
   return (
     <Card>
@@ -33,7 +44,7 @@ export function EditCarForm({ carId, slug, initialValues }: EditCarFormProps) {
             fieldErrors={state.fieldErrors}
           />
 
-          {state.message && state.status === 'error' && !state.fieldErrors && (
+          {state.message && state.status === "error" && !state.fieldErrors && (
             <p className="text-sm text-red-600 md:col-span-2">
               {state.message}
             </p>
