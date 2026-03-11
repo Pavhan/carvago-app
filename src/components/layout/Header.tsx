@@ -14,6 +14,7 @@ export function Header() {
                 src="/logo-carvago.svg"
                 width={136}
                 height={30}
+                priority
               />
             </Link>
           </div>

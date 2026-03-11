@@ -1,8 +1,8 @@
 'use client';
 
 import { SearchIcon, X } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useDeferredValue, useState, ViewTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import { Suspense, useDeferredValue, useState } from 'react';
 import { CarsResult } from '@/app/(homepage)/_components/CarsResult';
 import { CarDetailSkeleton } from '@/app/cars/[slug]/_components/CarDetailSkeleton';
 import { Button } from '@/components/ui/button';
@@ -22,7 +22,6 @@ export function CarsWithSearch({ cars }: CarsWithSearchProps) {
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
   const router = useRouter();
-  const searchParams = useSearchParams();
   const hasSearchValue = search.trim().length > 0;
 
   return (
@@ -61,21 +60,8 @@ export function CarsWithSearch({ cars }: CarsWithSearchProps) {
         </InputGroup>
       </Field>
 
-      <Suspense
-        fallback={
-          <ViewTransition exit="slide-down">
-            <CarDetailSkeleton />
-          </ViewTransition>
-        }
-      >
-        <ViewTransition
-          key={searchParams.toString()}
-          enter="slide-up"
-          exit="slide-down"
-          default="none"
-        >
-          <CarsResult items={cars} search={deferredSearch} />
-        </ViewTransition>
+      <Suspense fallback={<CarDetailSkeleton />}>
+        <CarsResult items={cars} search={deferredSearch} />
       </Suspense>
     </div>
   );
