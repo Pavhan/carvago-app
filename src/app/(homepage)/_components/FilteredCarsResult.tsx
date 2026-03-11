@@ -1,7 +1,6 @@
 'use client';
 
 import { CarDetailContent } from '@/app/cars/[slug]/_components/CarDetailContent';
-import { CarDetailSkeleton } from '@/app/cars/[slug]/_components/CarDetailSkeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import type { Car } from '@/drizzle/schema';
 

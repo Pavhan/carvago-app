@@ -3,23 +3,15 @@
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-
-const FILTER_LABELS: Record<string, string> = {
-  transmission: "Převodovka",
-  fuelType: "Benzín",
-};
+import {
+  CAR_FILTER_LABELS,
+  FUEL_FILTER_VALUE_TO_LABEL,
+  TRANSMISSION_FILTER_VALUE_TO_LABEL,
+} from "@/lib/car-options";
 
 const FILTER_VALUE_LABELS: Record<string, Record<string, string>> = {
-  transmission: {
-    manual: "Manuál",
-    automat: "Automat",
-  },
-  fuelType: {
-    benzin: "Benzín",
-    nafta: "Nafta",
-    elektro: "Elektro",
-    hybrid: "Hybrid",
-  },
+  transmission: TRANSMISSION_FILTER_VALUE_TO_LABEL,
+  fuelType: FUEL_FILTER_VALUE_TO_LABEL,
 };
 
 export function ActiveFilters() {
@@ -43,7 +35,7 @@ export function ActiveFilters() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2">
           {Array.from(filterGroups.entries()).map(([key, values]) => {
-            const label = FILTER_LABELS[key] ?? key;
+            const label = CAR_FILTER_LABELS[key] ?? key;
             const displayValues = values.map((value) => {
               return FILTER_VALUE_LABELS[key]?.[value] ?? value;
             });

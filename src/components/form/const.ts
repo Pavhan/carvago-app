@@ -1,15 +1,13 @@
-export type Transmission = 'Manuál' | 'Automat';
-export type FuelType = 'Benzín' | 'Nafta' | 'Elektro' | 'Hybrid';
+import {
+  FUEL_OPTIONS,
+  type FuelType,
+  TRANSMISSION_OPTIONS,
+  type Transmission,
+} from "@/lib/car-options";
 
-export const ALL_FILTER_OPTION = { label: 'Všechny', value: 'all' } as const;
+export const ALL_FILTER_OPTION = { label: "Všechny", value: "all" } as const;
 
-export const TRANSMISSION_OPTIONS: Transmission[] = ['Manuál', 'Automat'];
-export const FUEL_OPTIONS: FuelType[] = [
-  'Benzín',
-  'Nafta',
-  'Elektro',
-  'Hybrid',
-];
+export { FUEL_OPTIONS, TRANSMISSION_OPTIONS, type FuelType, type Transmission };
 
 export function toSelectOptions(values: readonly string[]) {
   return values.map((value) => ({

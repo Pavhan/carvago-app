@@ -2,27 +2,25 @@ import { and, desc, eq } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import { cars } from "@/drizzle/schema";
 import { sleep } from "@/helpers/sleep";
+import {
+  FUEL_FILTER_VALUE_TO_LABEL,
+  TRANSMISSION_FILTER_VALUE_TO_LABEL,
+} from "@/lib/car-options";
 
 export type CarsFilters = {
   transmission?: string;
   fuelType?: string;
 };
 
-const TRANSMISSION_FILTER_MAP = {
+const TRANSMISSION_FILTER_MAP: Record<string, string | undefined> = {
   all: undefined,
-  manual: "Manuál",
-  automat: "Automat",
-  manuál: "Manuál",
-} as const;
+  ...TRANSMISSION_FILTER_VALUE_TO_LABEL,
+};
 
-const FUEL_FILTER_MAP = {
+const FUEL_FILTER_MAP: Record<string, string | undefined> = {
   all: undefined,
-  benzin: "Benzín",
-  nafta: "Nafta",
-  elektro: "Elektro",
-  hybrid: "Hybrid",
-  benzín: "Benzín",
-} as const;
+  ...FUEL_FILTER_VALUE_TO_LABEL,
+};
 
 function mapFilterValue(
   value: string | undefined,

@@ -3,6 +3,10 @@
 import { ALL_FILTER_OPTION } from "@/components/form/const";
 import { FormFieldSelect } from "@/components/form/FormFieldSelect";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  FUEL_FILTER_OPTIONS,
+  TRANSMISSION_FILTER_OPTIONS,
+} from "@/lib/car-options";
 import type { CarsFilters } from "@/lib/cars";
 
 type CarsFilterPanelProps = {
@@ -11,17 +15,10 @@ type CarsFilterPanelProps = {
 
 const transmissionSelectOptions = [
   ALL_FILTER_OPTION,
-  { label: "Manuál", value: "manual" },
-  { label: "Automat", value: "automat" },
+  ...TRANSMISSION_FILTER_OPTIONS,
 ];
 
-const fuelSelectOptions = [
-  ALL_FILTER_OPTION,
-  { label: "Benzín", value: "benzin" },
-  { label: "Nafta", value: "nafta" },
-  { label: "Elektro", value: "elektro" },
-  { label: "Hybrid", value: "hybrid" },
-];
+const fuelSelectOptions = [ALL_FILTER_OPTION, ...FUEL_FILTER_OPTIONS];
 
 export function CarsFilterPanel({ activeFilters }: CarsFilterPanelProps) {
   return (

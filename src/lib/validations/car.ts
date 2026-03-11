@@ -1,7 +1,5 @@
 import { z } from "zod";
-
-const TRANSMISSION_OPTIONS = ["Manuál", "Automat"] as const;
-const FUEL_OPTIONS = ["Benzín", "Nafta", "Elektro", "Hybrid"] as const;
+import { FUEL_OPTIONS, TRANSMISSION_OPTIONS } from "@/lib/car-options";
 
 function isValidImageUrl(value: string) {
   if (value.startsWith("/images/cars/")) {
