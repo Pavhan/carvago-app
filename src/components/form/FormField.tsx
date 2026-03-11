@@ -1,6 +1,7 @@
-import type { ComponentProps } from 'react';
-import { FormLabel } from '@/components/form/FormLabel';
-import { Input } from '@/components/ui/input';
+import type { ComponentProps } from "react";
+import { FormLabel } from "@/components/form/FormLabel";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 type InputProps = ComponentProps<typeof Input>;
 
@@ -10,24 +11,24 @@ type FormFieldProps = {
   inputClassName?: string;
 } & Pick<
   InputProps,
-  | 'defaultValue'
-  | 'id'
-  | 'max'
-  | 'min'
-  | 'name'
-  | 'onChange'
-  | 'placeholder'
-  | 'required'
-  | 'step'
-  | 'type'
-  | 'value'
+  | "defaultValue"
+  | "id"
+  | "max"
+  | "min"
+  | "name"
+  | "onChange"
+  | "placeholder"
+  | "required"
+  | "step"
+  | "type"
+  | "value"
 >;
 
 export function FormField({
   label,
   name,
   id,
-  type = 'text',
+  type = "text",
   error,
   required = false,
   defaultValue,
@@ -42,7 +43,7 @@ export function FormField({
   const inputId = id ?? name;
 
   return (
-    <div className="space-y-2">
+    <Field>
       <FormLabel htmlFor={inputId} required={required}>
         {label}
       </FormLabel>
@@ -61,6 +62,6 @@ export function FormField({
         value={value}
       />
       {error && <p className="text-sm text-red-600">{error}</p>}
-    </div>
+    </Field>
   );
 }

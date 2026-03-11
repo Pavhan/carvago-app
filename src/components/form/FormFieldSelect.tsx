@@ -1,5 +1,8 @@
-import type { ComponentProps } from 'react';
-import { FormLabel } from '@/components/form/FormLabel';
+import type { Route } from "next";
+import { useRouter, useSearchParams } from "next/navigation";
+import type { ComponentProps } from "react";
+import { FormLabel } from "@/components/form/FormLabel";
+import { Field } from "@/components/ui/field";
 import {
   Select,
   SelectContent,
@@ -8,10 +11,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { createQueryString } from '@/lib/createQueryString';
-import type { Route } from 'next';
+} from "@/components/ui/select";
+import { createQueryString } from "@/lib/createQueryString";
 
 type FormFieldSelectOption = {
   label: string;
@@ -28,7 +29,7 @@ type FormFieldSelectProps = {
   id?: string;
 } & Pick<
   SelectProps,
-  'defaultValue' | 'name' | 'onValueChange' | 'required' | 'value'
+  "defaultValue" | "name" | "onValueChange" | "required" | "value"
 >;
 
 export function FormFieldSelect({
@@ -49,7 +50,7 @@ export function FormFieldSelect({
   const searchParams = useSearchParams();
 
   return (
-    <div className="space-y-2">
+    <Field>
       <FormLabel htmlFor={fieldId} required={required}>
         {label}
       </FormLabel>
@@ -58,7 +59,7 @@ export function FormFieldSelect({
         name={name}
         onValueChange={(value) => {
           onValueChange?.(value);
-          console.log('Selected value:', value);
+          console.log("Selected value:", value);
           if (!name) return;
           router.push(
             createQueryString(searchParams, {
@@ -85,6 +86,6 @@ export function FormFieldSelect({
         </SelectContent>
       </Select>
       {error && <p className="text-sm text-red-600">{error}</p>}
-    </div>
+    </Field>
   );
 }

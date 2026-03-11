@@ -1,11 +1,11 @@
-import type { ComponentProps, ReactNode } from 'react';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
+import type { ComponentProps, ReactNode } from "react";
+import { FieldLabel } from "@/components/ui/field";
+import { cn } from "@/lib/utils";
 
 type FormLabelProps = {
   children: ReactNode;
   required?: boolean;
-} & Pick<ComponentProps<typeof Label>, 'className' | 'htmlFor'>;
+} & Pick<ComponentProps<typeof FieldLabel>, "className" | "htmlFor">;
 
 export function FormLabel({
   children,
@@ -14,12 +14,9 @@ export function FormLabel({
   required = false,
 }: FormLabelProps) {
   return (
-    <Label
-      className={cn('block text-sm font-bold text-gray-500', className)}
-      htmlFor={htmlFor}
-    >
+    <FieldLabel className={cn("block", className)} htmlFor={htmlFor}>
       {children}
       {required ? <span className="ml-1 text-red-600">*</span> : null}
-    </Label>
+    </FieldLabel>
   );
 }
