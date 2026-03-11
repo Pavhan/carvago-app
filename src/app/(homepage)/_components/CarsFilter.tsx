@@ -10,6 +10,8 @@ import type { CarsFilters } from '@/lib/cars';
 
 type CarsFilterProps = {
   activeFilters: CarsFilters;
+  filteredCarsCount: number;
+  totalCarsCount: number;
 };
 
 function toMultiValue(value: string | string[] | undefined) {
@@ -18,15 +20,24 @@ function toMultiValue(value: string | string[] | undefined) {
   return values.flatMap((item) => item.split(',')).filter(Boolean);
 }
 
-export function CarsFilter({ activeFilters }: CarsFilterProps) {
+export function CarsFilter({
+  activeFilters,
+  filteredCarsCount,
+  totalCarsCount,
+}: CarsFilterProps) {
   const transmissionValues = toMultiValue(activeFilters.transmission);
   const fuelTypeValues = toMultiValue(activeFilters.fuelType);
 
   return (
     <div className="space-y-5">
-      <h2 className="text-2xl font-semibold" data-testid="cars-heading">
-        Filtrovat podle
-      </h2>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-2xl font-semibold" data-testid="cars-heading">
+          Filtrovat podle
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          nalezeno aut {filteredCarsCount} z celkových {totalCarsCount}
+        </p>
+      </div>
 
       <Card className="overflow-visible p-0">
         <CardContent className="p-5">

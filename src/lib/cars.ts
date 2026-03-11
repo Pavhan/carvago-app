@@ -1,4 +1,4 @@
-import { and, desc, eq, inArray } from "drizzle-orm";
+import { and, count, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import { cars } from "@/drizzle/schema";
 import { sleep } from "@/helpers/sleep";
@@ -64,6 +64,11 @@ export async function getCars(filters?: CarsFilters) {
     .from(cars)
     .where(whereClause)
     .orderBy(desc(cars.createdAt));
+}
+
+export async function getCarsCount() {
+  const [{ value }] = await db.select({ value: count() }).from(cars);
+  return value;
 }
 
 export async function getCarBySlug(slug: string) {
