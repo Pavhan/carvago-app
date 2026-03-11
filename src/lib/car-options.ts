@@ -44,8 +44,3 @@ export const FUEL_FILTER_VALUE_TO_LABEL = createFilterValueToLabelMap(
     benzín: "Benzín",
   },
 );
-
-export const CAR_FILTER_LABELS: Record<string, string> = {
-  transmission: "Převodovka",
-  fuelType: "Palivo",
-};

@@ -1,11 +1,6 @@
-import {
-  FUEL_OPTIONS,
-  type FuelType,
-  TRANSMISSION_OPTIONS,
-  type Transmission,
-} from "@/lib/car-options";
+import { FUEL_OPTIONS, TRANSMISSION_OPTIONS } from "@/lib/car-options";
 
-export { FUEL_OPTIONS, TRANSMISSION_OPTIONS, type FuelType, type Transmission };
+export { FUEL_OPTIONS, TRANSMISSION_OPTIONS };
 
 export function toSelectOptions(values: readonly string[]) {
   return values.map((value) => ({

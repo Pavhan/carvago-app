@@ -255,35 +255,6 @@ function ComboboxChipsInput({
   );
 }
 
-function ComboboxInput({
-  className,
-  onFocus,
-  onChange,
-  ...props
-}: React.ComponentProps<"input">) {
-  const { query, setQuery, setOpen } = useComboboxContext("ComboboxInput");
-
-  return (
-    <input
-      className={cn(
-        "h-10 w-full rounded-lg border border-input px-3 text-sm outline-none placeholder:text-muted-foreground",
-        className,
-      )}
-      onChange={(event) => {
-        setQuery(event.target.value);
-        setOpen(true);
-        onChange?.(event);
-      }}
-      onFocus={(event) => {
-        setOpen(true);
-        onFocus?.(event);
-      }}
-      value={query}
-      {...props}
-    />
-  );
-}
-
 function ComboboxContent({ className, ...props }: React.ComponentProps<"div">) {
   const { open } = useComboboxContext("ComboboxContent");
 
@@ -375,7 +346,6 @@ export {
   ComboboxChipsInput,
   ComboboxContent,
   ComboboxEmpty,
-  ComboboxInput,
   ComboboxItem,
   ComboboxList,
   ComboboxValue,

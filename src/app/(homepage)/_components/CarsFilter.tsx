@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { FormFieldMultiselectSelect } from "@/components/form/FormFieldMultiselectSelect";
-import { Card, CardContent } from "@/components/ui/card";
+import { FormFieldMultiselectSelect } from '@/components/form/FormFieldMultiselectSelect';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   FUEL_FILTER_OPTIONS,
   TRANSMISSION_FILTER_OPTIONS,
-} from "@/lib/car-options";
-import type { CarsFilters } from "@/lib/cars";
+} from '@/lib/car-options';
+import type { CarsFilters } from '@/lib/cars';
 
 type CarsFilterProps = {
   activeFilters: CarsFilters;
@@ -17,7 +17,7 @@ type CarsFilterProps = {
 function toMultiValue(value: string | string[] | undefined) {
   if (!value) return [];
   const values = Array.isArray(value) ? value : [value];
-  return values.flatMap((item) => item.split(",")).filter(Boolean);
+  return values.flatMap((item) => item.split(',')).filter(Boolean);
 }
 
 export function CarsFilter({
@@ -43,7 +43,6 @@ export function CarsFilter({
         <CardContent className="p-5">
           <div className="grid gap-4 md:grid-cols-2">
             <FormFieldMultiselectSelect
-              id="transmission-filter"
               label="Převodovka"
               name="transmission"
               options={[...TRANSMISSION_FILTER_OPTIONS]}
@@ -52,7 +51,6 @@ export function CarsFilter({
             />
 
             <FormFieldMultiselectSelect
-              id="fuel-type-filter"
               label="Palivo"
               name="fuelType"
               options={[...FUEL_FILTER_OPTIONS]}

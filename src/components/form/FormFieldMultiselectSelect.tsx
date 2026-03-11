@@ -1,6 +1,6 @@
-import type { Route } from "next";
-import { useRouter, useSearchParams } from "next/navigation";
-import { FormLabel } from "@/components/form/FormLabel";
+import type { Route } from 'next';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FormLabel } from '@/components/form/FormLabel';
 import {
   Combobox,
   ComboboxChip,
@@ -11,9 +11,9 @@ import {
   ComboboxItem,
   ComboboxList,
   ComboboxValue,
-} from "@/components/ui/combobox";
-import { Field } from "@/components/ui/field";
-import { createQueryString } from "@/lib/createQueryString";
+} from '@/components/ui/combobox';
+import { Field } from '@/components/ui/field';
+import { createQueryString } from '@/lib/createQueryString';
 
 type FormFieldMultiselectSelectOption = {
   label: string;
@@ -25,9 +25,8 @@ type FormFieldMultiselectSelectProps = {
   placeholder: string;
   options: FormFieldMultiselectSelectOption[];
   error?: string;
-  id?: string;
   defaultValue?: string[];
-  name?: string;
+  name: string;
   onValueChange?: (value: string[]) => void;
   required?: boolean;
   value?: string[];
@@ -43,16 +42,14 @@ export function FormFieldMultiselectSelect({
   onValueChange,
   error,
   required = false,
-  id,
 }: FormFieldMultiselectSelectProps) {
-  const fieldId = id ?? name ?? `${label}-select`;
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedValues = value ?? defaultValue ?? [];
 
   return (
     <Field>
-      <FormLabel htmlFor={fieldId} required={required}>
+      <FormLabel htmlFor={name} required={required}>
         {label}
       </FormLabel>
       <Combobox
@@ -92,7 +89,7 @@ export function FormFieldMultiselectSelect({
               );
             })}
           </ComboboxValue>
-          <ComboboxChipsInput id={fieldId} placeholder={placeholder} />
+          <ComboboxChipsInput id={name} placeholder={placeholder} />
         </ComboboxChips>
         <ComboboxContent>
           <ComboboxEmpty>No items found.</ComboboxEmpty>

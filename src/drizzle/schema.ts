@@ -12,4 +12,3 @@ export const cars = pgTable("cars", {
 });
 
 export type Car = typeof cars.$inferSelect;
-export type NewCar = typeof cars.$inferInsert;
