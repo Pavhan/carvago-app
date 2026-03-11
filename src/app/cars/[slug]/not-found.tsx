@@ -16,17 +16,13 @@ export default function CarNotFound() {
         </CardHeader>
         <CardContent className="space-y-4 text-sm sm:text-base">
           <p className="text-muted-foreground">
-            Omlouváme se, ale detail tohoto auta už není dostupný nebo odkaz není
-            správný.
+            Omlouváme se, ale detail tohoto auta už není dostupný nebo odkaz
+            není správný.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild>
-              <Link href="/cars">Zpět na nabídku</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/">Domů</Link>
-            </Button>
-          </div>
+
+          <Button asChild variant="outline">
+            <Link href="/">Domů</Link>
+          </Button>
         </CardContent>
       </Card>
     </div>

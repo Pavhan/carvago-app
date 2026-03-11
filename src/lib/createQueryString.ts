@@ -1,11 +1,7 @@
 import type { CarsFilters } from '@/lib/cars';
 
-function normalizeFilterValues(
-  value: string | string[],
-): string[] {
-  const rawValues = Array.isArray(value)
-    ? value
-    : [value];
+function normalizeFilterValues(value: string | string[]): string[] {
+  const rawValues = Array.isArray(value) ? value : [value];
 
   const values = rawValues
     .flatMap((item) => {
@@ -18,14 +14,26 @@ function normalizeFilterValues(
   return Array.from(new Set(values));
 }
 
+function toUrlSearchParams(searchParams: CarsFilters): URLSearchParams {
+  const params = new URLSearchParams();
+
+  Object.entries(searchParams).forEach(([key, rawValue]) => {
+    if (!rawValue) return;
+
+    const values = normalizeFilterValues(rawValue);
+    if (values.length === 0) return;
+
+    params.set(key, values.join(','));
+  });
+
+  return params;
+}
+
 export function createQueryString(
   searchParams: CarsFilters,
-  {
-    name,
-    value,
-  }: { name: string; value: string | string[] },
+  { name, value }: { name: string; value: string | string[] },
 ) {
-  const params = new URLSearchParams(searchParams.toString());
+  const params = toUrlSearchParams(searchParams);
   params.delete(name);
 
   const values = normalizeFilterValues(value);
