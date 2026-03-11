@@ -4,7 +4,7 @@ import { SearchIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Suspense, useDeferredValue, useState, useTransition } from 'react';
 import { CarsResult } from '@/app/(homepage)/_components/CarsResult';
-import { CarDetailSkeleton } from '@/app/cars/[slug]/_components/CarDetailSkeleton';
+import { CarDetailSkeletonList } from '@/app/cars/[slug]/_components/CarDetailSkeleton';
 import { Field, FieldLabel } from '@/components/ui/field';
 import {
   InputGroup,
@@ -65,7 +65,7 @@ export function CarsWithSearch({ cars }: CarsWithSearchProps) {
         </InputGroup>
       </Field>
 
-      <Suspense fallback={<CarDetailSkeleton />}>
+      <Suspense fallback={<CarDetailSkeletonList />}>
         <CarsResult items={cars} search={deferredSearch} />
       </Suspense>
     </div>

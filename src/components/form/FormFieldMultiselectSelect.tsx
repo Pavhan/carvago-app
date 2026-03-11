@@ -1,6 +1,5 @@
 import type { Route } from "next";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import { FormLabel } from "@/components/form/FormLabel";
 import {
   Combobox,
@@ -16,15 +15,15 @@ import {
 import { Field } from "@/components/ui/field";
 import { createQueryString } from "@/lib/createQueryString";
 
-type FormFieldSelectOption = {
+type FormFieldMultiselectSelectOption = {
   label: string;
   value: string;
 };
 
-type FormFieldSelectProps = {
+type FormFieldMultiselectSelectProps = {
   label: string;
   placeholder: string;
-  options: FormFieldSelectOption[];
+  options: FormFieldMultiselectSelectOption[];
   error?: string;
   id?: string;
   defaultValue?: string[];
@@ -34,7 +33,7 @@ type FormFieldSelectProps = {
   value?: string[];
 };
 
-export function FormFieldSelect({
+export function FormFieldMultiselectSelect({
   label,
   name,
   placeholder,
@@ -45,12 +44,10 @@ export function FormFieldSelect({
   error,
   required = false,
   id,
-}: FormFieldSelectProps) {
+}: FormFieldMultiselectSelectProps) {
   const fieldId = id ?? name ?? `${label}-select`;
-
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const selectedValues = value ?? defaultValue ?? [];
 
   return (

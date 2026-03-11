@@ -4,7 +4,7 @@ import {
   toSelectOptions,
 } from "@/components/form/const";
 import { FormField } from "@/components/form/FormField";
-import { FormFieldSelect } from "@/components/form/FormFieldSelect";
+import { FormFieldSimpleSelect } from "@/components/form/FormFieldSimpleSelect";
 
 export type CarFormValues = {
   name: string;
@@ -18,10 +18,6 @@ type CarFormFieldsProps = {
   fieldErrors?: Record<string, string[]>;
   defaultValues?: CarFormValues;
 };
-
-function toDefaultMultiValue(value?: string) {
-  return value ? [value] : undefined;
-}
 
 export function CarFormFields({
   fieldErrors,
@@ -45,8 +41,8 @@ export function CarFormFields({
         required
       />
 
-      <FormFieldSelect
-        defaultValue={toDefaultMultiValue(defaultValues?.transmission)}
+      <FormFieldSimpleSelect
+        defaultValue={defaultValues?.transmission}
         error={fieldErrors?.transmission?.[0]}
         label="Převodovka"
         name="transmission"
@@ -55,8 +51,8 @@ export function CarFormFields({
         required
       />
 
-      <FormFieldSelect
-        defaultValue={toDefaultMultiValue(defaultValues?.fuelType)}
+      <FormFieldSimpleSelect
+        defaultValue={defaultValues?.fuelType}
         error={fieldErrors?.fuelType?.[0]}
         label="Palivo"
         name="fuelType"
