@@ -1,12 +1,16 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useDeferredValue, useState, ViewTransition } from "react";
 import { FilteredCarsResult } from "@/app/(homepage)/_components/FilteredCarsResult";
 import { CarDetailSkeleton } from "@/app/cars/[slug]/_components/CarDetailSkeleton";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import type { Car } from "@/drizzle/schema";
 
 import { ActiveFilters } from "./ActiveFilters";
@@ -26,18 +30,19 @@ export function CarsWithSearch({ cars }: CarsWithSearchProps) {
         <FieldLabel className="sr-only" htmlFor="title-filter">
           Hledat auto
         </FieldLabel>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
+        <InputGroup className="bg-white">
+          <InputGroupAddon>
+            <SearchIcon className="h-4 w-4" />
+          </InputGroupAddon>
+          <InputGroupInput
             id="title-filter"
-            className="bg-white pl-10"
             value={search}
             placeholder="Např. Audi, Tesla..."
             onChange={(e) => {
               setSearch(e.currentTarget.value);
             }}
           />
-        </div>
+        </InputGroup>
       </Field>
 
       <ActiveFilters />
