@@ -3,7 +3,7 @@
 import { SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useDeferredValue, useState, ViewTransition } from "react";
-import { FilteredCarsResult } from "@/app/(homepage)/_components/FilteredCarsResult";
+import { CarsResult } from '@/app/(homepage)/_components/CarsResult';
 import { CarDetailSkeleton } from "@/app/cars/[slug]/_components/CarDetailSkeleton";
 import { Field, FieldLabel } from "@/components/ui/field";
 import {
@@ -60,7 +60,7 @@ export function CarsWithSearch({ cars }: CarsWithSearchProps) {
           exit="slide-down"
           default="none"
         >
-          <FilteredCarsResult items={cars} search={deferredSearch} />
+          <CarsResult items={cars} search={deferredSearch} />
         </ViewTransition>
       </Suspense>
     </div>

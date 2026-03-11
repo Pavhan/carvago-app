@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { ALL_FILTER_OPTION } from "@/components/form/const";
-import { FormFieldSelect } from "@/components/form/FormFieldSelect";
-import { Card, CardContent } from "@/components/ui/card";
+import { ALL_FILTER_OPTION } from '@/components/form/const';
+import { FormFieldSelect } from '@/components/form/FormFieldSelect';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   FUEL_FILTER_OPTIONS,
   TRANSMISSION_FILTER_OPTIONS,
-} from "@/lib/car-options";
-import type { CarsFilters } from "@/lib/cars";
+} from '@/lib/car-options';
+import type { CarsFilters } from '@/lib/cars';
 
-type CarsFilterPanelProps = {
+type CarsFilterProps = {
   activeFilters: CarsFilters;
 };
 
@@ -20,7 +20,7 @@ const transmissionSelectOptions = [
 
 const fuelSelectOptions = [ALL_FILTER_OPTION, ...FUEL_FILTER_OPTIONS];
 
-export function CarsFilterPanel({ activeFilters }: CarsFilterPanelProps) {
+export function CarsFilter({ activeFilters }: CarsFilterProps) {
   return (
     <div className="space-y-5">
       <h2 className="text-2xl font-semibold" data-testid="cars-heading">
