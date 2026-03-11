@@ -1,22 +1,19 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useActionState } from 'react';
+import Link from "next/link";
+import { useActionState } from "react";
 import {
   type CreateCarActionState,
   createCarAction,
-} from '@/app/actions/carCreate';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { CarFormFields } from './CarFormFields';
+} from "@/app/actions/carCreate";
+import { Card, CardContent } from "@/components/ui/card";
+import { LoadingButton } from "@/components/ui/loading-button";
+import { CarFormFields } from "./CarFormFields";
 
 const initialState: CreateCarActionState = {};
 
 export function CreateCarForm() {
-  const [state, formAction, isPending] = useActionState(
-    createCarAction,
-    initialState,
-  );
+  const [state, formAction] = useActionState(createCarAction, initialState);
 
   return (
     <Card>
@@ -31,9 +28,7 @@ export function CreateCarForm() {
           )}
 
           <div className="flex items-center gap-3 md:col-span-2">
-            <Button disabled={isPending} type="submit">
-              {isPending ? 'Ukládám…' : 'Uložit auto'}
-            </Button>
+            <LoadingButton type="submit">Uložit auto</LoadingButton>
             <Link className="text-sm underline" href="/">
               Zpět na výpis
             </Link>

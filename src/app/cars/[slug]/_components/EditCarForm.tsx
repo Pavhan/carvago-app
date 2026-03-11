@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useActionState, useEffect } from 'react';
-import { toast } from 'sonner';
+import Link from "next/link";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import {
   type UpdateCarActionState,
   updateCarAction,
-} from '@/app/actions/carUpdate';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { CarFormFields, type CarFormValues } from './CarFormFields';
+} from "@/app/actions/carUpdate";
+import { Card, CardContent } from "@/components/ui/card";
+import { LoadingButton } from "@/components/ui/loading-button";
+import { CarFormFields, type CarFormValues } from "./CarFormFields";
 
 type EditCarFormProps = {
   carId: number;
@@ -20,17 +20,14 @@ type EditCarFormProps = {
 const initialState: UpdateCarActionState = {};
 
 export function EditCarForm({ carId, slug, initialValues }: EditCarFormProps) {
-  const [state, formAction, isPending] = useActionState(
-    updateCarAction,
-    initialState,
-  );
+  const [state, formAction] = useActionState(updateCarAction, initialState);
 
   useEffect(() => {
     if (!state.status || !state.message) {
       return;
     }
 
-    if (state.status === 'error') {
+    if (state.status === "error") {
       toast.error(state.message);
     }
   }, [state]);
@@ -50,16 +47,14 @@ export function EditCarForm({ carId, slug, initialValues }: EditCarFormProps) {
             fieldErrors={state.fieldErrors}
           />
 
-          {state.message && state.status === 'error' && !state.fieldErrors && (
+          {state.message && state.status === "error" && !state.fieldErrors && (
             <p className="text-sm text-red-600 md:col-span-2">
               {state.message}
             </p>
           )}
 
           <div className="flex items-center gap-3 md:col-span-2">
-            <Button disabled={isPending} type="submit">
-              {isPending ? 'Ukládám…' : 'Uložit změny'}
-            </Button>
+            <LoadingButton type="submit">Uložit změny</LoadingButton>
             <Link className="text-sm underline" href={`/cars/${slug}`}>
               Zpět na detail
             </Link>

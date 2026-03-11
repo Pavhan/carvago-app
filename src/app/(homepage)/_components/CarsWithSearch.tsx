@@ -2,16 +2,16 @@
 
 import { SearchIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Suspense, useDeferredValue, useState } from 'react';
+import { Suspense, useDeferredValue, useState, useTransition } from 'react';
 import { CarsResult } from '@/app/(homepage)/_components/CarsResult';
 import { CarDetailSkeleton } from '@/app/cars/[slug]/_components/CarDetailSkeleton';
-import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from '@/components/ui/input-group';
+import { LoadingButton } from '@/components/ui/loading-button';
 import type { Car } from '@/drizzle/schema';
 
 type CarsWithSearchProps = {
@@ -23,6 +23,7 @@ export function CarsWithSearch({ cars }: CarsWithSearchProps) {
   const deferredSearch = useDeferredValue(search);
   const router = useRouter();
   const hasSearchValue = search.trim().length > 0;
+  const [isPending, startTransition] = useTransition();
 
   return (
     <div className="space-y-4">
@@ -44,17 +45,21 @@ export function CarsWithSearch({ cars }: CarsWithSearchProps) {
           />
           {hasSearchValue ? (
             <InputGroupAddon className="pr-1">
-              <Button
+              <LoadingButton
                 onClick={() => {
-                  router.push('/?');
+                  setSearch('');
+                  startTransition(() => {
+                    router.push('/?');
+                  });
                 }}
+                loading={isPending}
                 size="sm"
                 type="button"
                 variant="ghost"
               >
                 <X width={16} height={16} aria-hidden="true" />
                 Clear
-              </Button>
+              </LoadingButton>
             </InputGroupAddon>
           ) : null}
         </InputGroup>
