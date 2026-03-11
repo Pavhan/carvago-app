@@ -27,7 +27,6 @@ export async function createCarAction(
 
   if (!parsed.success) {
     return {
-      message: 'Formulář obsahuje chyby.',
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }

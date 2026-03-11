@@ -38,7 +38,6 @@ export async function updateCarAction(
   if (!parsed.success) {
     return {
       status: 'error',
-      message: 'Formulář obsahuje chyby.',
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }

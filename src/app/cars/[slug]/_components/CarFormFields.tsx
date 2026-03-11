@@ -2,9 +2,9 @@ import {
   FUEL_OPTIONS,
   TRANSMISSION_OPTIONS,
   toSelectOptions,
-} from "@/components/form/const";
-import { FormField } from "@/components/form/FormField";
-import { FormFieldSimpleSelect } from "@/components/form/FormFieldSimpleSelect";
+} from '@/components/form/const';
+import { FormField } from '@/components/form/FormField';
+import { FormFieldSimpleSelect } from '@/components/form/FormFieldSimpleSelect';
 
 export type CarFormValues = {
   name: string;
@@ -24,7 +24,7 @@ export function CarFormFields({
   defaultValues,
 }: CarFormFieldsProps) {
   return (
-    <>
+    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
       <FormField
         defaultValue={defaultValues?.name}
         error={fieldErrors?.name?.[0]}
@@ -68,9 +68,9 @@ export function CarFormFields({
         min={1}
         name="price"
         required
-        step={1000}
+        step={1}
         type="number"
       />
-    </>
+    </div>
   );
 }
