@@ -48,6 +48,7 @@ export function CarsFilter({
               options={[...TRANSMISSION_FILTER_OPTIONS]}
               placeholder="Vyber převodovku"
               value={transmissionValues}
+              searchParams={activeFilters}
             />
 
             <FormFieldMultiselectSelect
@@ -56,6 +57,7 @@ export function CarsFilter({
               options={[...FUEL_FILTER_OPTIONS]}
               placeholder="Vyber palivo"
               value={fuelTypeValues}
+              searchParams={activeFilters}
             />
           </div>
         </CardContent>

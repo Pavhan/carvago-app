@@ -1,17 +1,17 @@
-import type { ReadonlyURLSearchParams } from "next/navigation";
+import { CarsFilters } from '@/lib/cars';
 
 function normalizeFilterValues(
   value: string | string[] | { value: string }[],
 ): string[] {
   const rawValues = Array.isArray(value)
     ? value.map((item) => {
-        return typeof item === "string" ? item : item.value;
+        return typeof item === 'string' ? item : item.value;
       })
     : [value];
 
   const values = rawValues
     .flatMap((item) => {
-      return item.split(",").map((part) => {
+      return item.split(',').map((part) => {
         return part.trim();
       });
     })
@@ -21,7 +21,7 @@ function normalizeFilterValues(
 }
 
 export function createQueryString(
-  searchParams: ReadonlyURLSearchParams,
+  searchParams: CarsFilters,
   {
     name,
     value,
@@ -33,7 +33,7 @@ export function createQueryString(
   const values = normalizeFilterValues(value);
 
   if (values.length > 0) {
-    params.set(name, values.join(","));
+    params.set(name, values.join(','));
   }
 
   return `?${params.toString()}`;

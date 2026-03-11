@@ -1,5 +1,5 @@
 import type { Route } from 'next';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FormLabel } from '@/components/form/FormLabel';
 import {
   Combobox,
@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/combobox';
 import { Field } from '@/components/ui/field';
 import { createQueryString } from '@/lib/createQueryString';
+import { CarsFilters } from '@/lib/cars';
 
 type FormFieldMultiselectSelectOption = {
   label: string;
@@ -30,6 +31,7 @@ type FormFieldMultiselectSelectProps = {
   onValueChange?: (value: string[]) => void;
   required?: boolean;
   value?: string[];
+  searchParams: CarsFilters;
 };
 
 export function FormFieldMultiselectSelect({
@@ -42,9 +44,9 @@ export function FormFieldMultiselectSelect({
   onValueChange,
   error,
   required = false,
+  searchParams,
 }: FormFieldMultiselectSelectProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const selectedValues = value ?? defaultValue ?? [];
 
   return (
@@ -58,6 +60,12 @@ export function FormFieldMultiselectSelect({
         multiple
         name={name}
         onValueChange={(nextValue) => {
+          const query = createQueryString(searchParams, {
+            name,
+            value: nextValue,
+          });
+
+          console.log('query', query);
           if (!Array.isArray(nextValue)) return;
 
           onValueChange?.(nextValue);
