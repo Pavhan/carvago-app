@@ -1,8 +1,8 @@
-import type { Route } from "next";
-import { useRouter, useSearchParams } from "next/navigation";
-import type { ComponentProps } from "react";
-import { FormLabel } from "@/components/form/FormLabel";
-import { Field } from "@/components/ui/field";
+import type { Route } from 'next';
+import { useRouter, useSearchParams } from 'next/navigation';
+import type { ComponentProps } from 'react';
+import { FormLabel } from '@/components/form/FormLabel';
+import { Field } from '@/components/ui/field';
 import {
   Select,
   SelectContent,
@@ -11,8 +11,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { createQueryString } from "@/lib/createQueryString";
+} from '@/components/ui/select';
+import { createQueryString } from '@/lib/createQueryString';
 
 type FormFieldSelectOption = {
   label: string;
@@ -29,7 +29,7 @@ type FormFieldSelectProps = {
   id?: string;
 } & Pick<
   SelectProps,
-  "defaultValue" | "name" | "onValueChange" | "required" | "value"
+  'defaultValue' | 'name' | 'onValueChange' | 'required' | 'value'
 >;
 
 export function FormFieldSelect({
@@ -39,7 +39,6 @@ export function FormFieldSelect({
   options,
   defaultValue,
   value,
-  onValueChange,
   error,
   required = false,
   id,
@@ -58,8 +57,7 @@ export function FormFieldSelect({
         defaultValue={defaultValue}
         name={name}
         onValueChange={(value) => {
-          onValueChange?.(value);
-          console.log("Selected value:", value);
+          console.log('Selected value:', value);
           if (!name) return;
           router.push(
             createQueryString(searchParams, {

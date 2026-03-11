@@ -20,7 +20,19 @@ const transmissionSelectOptions = [
 
 const fuelSelectOptions = [ALL_FILTER_OPTION, ...FUEL_FILTER_OPTIONS];
 
+function getSelectedFilterValue(value: string | string[] | undefined) {
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) return value[0];
+  return undefined;
+}
+
 export function CarsFilter({ activeFilters }: CarsFilterProps) {
+  const transmissionValue =
+    getSelectedFilterValue(activeFilters.transmission) ??
+    ALL_FILTER_OPTION.value;
+  const fuelTypeValue =
+    getSelectedFilterValue(activeFilters.fuelType) ?? ALL_FILTER_OPTION.value;
+
   return (
     <div className="space-y-5">
       <h2 className="text-2xl font-semibold" data-testid="cars-heading">
@@ -36,7 +48,10 @@ export function CarsFilter({ activeFilters }: CarsFilterProps) {
               name="transmission"
               options={transmissionSelectOptions}
               placeholder={ALL_FILTER_OPTION.label}
-              value={activeFilters.transmission || ALL_FILTER_OPTION.value}
+              value={
+                getSelectedFilterValue(activeFilters.transmission) ??
+                ALL_FILTER_OPTION.value
+              }
             />
 
             <FormFieldSelect
@@ -45,7 +60,10 @@ export function CarsFilter({ activeFilters }: CarsFilterProps) {
               name="fuelType"
               options={fuelSelectOptions}
               placeholder={ALL_FILTER_OPTION.label}
-              value={activeFilters.fuelType || ALL_FILTER_OPTION.value}
+              value={
+                getSelectedFilterValue(activeFilters.fuelType) ??
+                ALL_FILTER_OPTION.value
+              }
             />
           </div>
         </CardContent>

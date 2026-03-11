@@ -1,15 +1,15 @@
-import { and, desc, eq } from "drizzle-orm";
-import { db } from "@/drizzle/db";
-import { cars } from "@/drizzle/schema";
-import { sleep } from "@/helpers/sleep";
+import { and, desc, eq, inArray } from 'drizzle-orm';
+import { db } from '@/drizzle/db';
+import { cars } from '@/drizzle/schema';
+import { sleep } from '@/helpers/sleep';
 import {
   FUEL_FILTER_VALUE_TO_LABEL,
   TRANSMISSION_FILTER_VALUE_TO_LABEL,
-} from "@/lib/car-options";
+} from '@/lib/car-options';
 
 export type CarsFilters = {
-  transmission?: string;
-  fuelType?: string;
+  transmission?: string | string[];
+  fuelType?: string | string[];
 };
 
 const TRANSMISSION_FILTER_MAP: Record<string, string | undefined> = {
@@ -22,27 +22,32 @@ const FUEL_FILTER_MAP: Record<string, string | undefined> = {
   ...FUEL_FILTER_VALUE_TO_LABEL,
 };
 
-function mapFilterValue(
-  value: string | undefined,
+function processFilterValues(
+  value: string | string[] | undefined,
   map: Record<string, string | undefined>,
-): string | undefined {
-  if (!value) return undefined;
-  return map[value.toLocaleLowerCase("cs-CZ")];
+): string[] | undefined {
+  const values = Array.isArray(value) ? value : value ? [value] : [];
+  const mapped = values
+    .map((v) => map[v.toLocaleLowerCase('cs-CZ')])
+    .filter((v): v is string => v !== undefined);
+  return mapped.length > 0 ? mapped : undefined;
 }
 
 export async function getCars(filters?: CarsFilters) {
-  // throw new Error('Simulovaná chyba');
-  await sleep(1000);
-
-  const transmissionFilter = mapFilterValue(
+  const transmissionValues = processFilterValues(
     filters?.transmission,
     TRANSMISSION_FILTER_MAP,
   );
-  const fuelTypeFilter = mapFilterValue(filters?.fuelType, FUEL_FILTER_MAP);
+  const fuelTypeValues = processFilterValues(
+    filters?.fuelType,
+    FUEL_FILTER_MAP,
+  );
 
   const whereClause = and(
-    transmissionFilter ? eq(cars.transmission, transmissionFilter) : undefined,
-    fuelTypeFilter ? eq(cars.fuelType, fuelTypeFilter) : undefined,
+    transmissionValues
+      ? inArray(cars.transmission, transmissionValues)
+      : undefined,
+    fuelTypeValues ? inArray(cars.fuelType, fuelTypeValues) : undefined,
   );
 
   return db
