@@ -13,8 +13,8 @@ import {
   ComboboxValue,
 } from '@/components/ui/combobox';
 import { Field } from '@/components/ui/field';
+import type { CarsFilters } from '@/lib/cars';
 import { createQueryString } from '@/lib/createQueryString';
-import { CarsFilters } from '@/lib/cars';
 
 type FormFieldMultiselectSelectOption = {
   label: string;
@@ -60,24 +60,16 @@ export function FormFieldMultiselectSelect({
         multiple
         name={name}
         onValueChange={(nextValue) => {
+          if (!Array.isArray(nextValue)) return;
+
+          onValueChange?.(nextValue);
+
           const query = createQueryString(searchParams, {
             name,
             value: nextValue,
           });
 
-          console.log('query', query);
-          if (!Array.isArray(nextValue)) return;
-
-          onValueChange?.(nextValue);
-
-          if (!name) return;
-
-          router.push(
-            createQueryString(searchParams, {
-              name,
-              value: nextValue,
-            }) as Route,
-          );
+          router.push(query as Route);
         }}
         required={required}
         value={value}

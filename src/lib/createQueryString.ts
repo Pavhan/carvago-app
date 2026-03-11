@@ -1,12 +1,10 @@
-import { CarsFilters } from '@/lib/cars';
+import type { CarsFilters } from '@/lib/cars';
 
 function normalizeFilterValues(
-  value: string | string[] | { value: string }[],
+  value: string | string[],
 ): string[] {
   const rawValues = Array.isArray(value)
-    ? value.map((item) => {
-        return typeof item === 'string' ? item : item.value;
-      })
+    ? value
     : [value];
 
   const values = rawValues
@@ -25,7 +23,7 @@ export function createQueryString(
   {
     name,
     value,
-  }: { name: string; value: string | string[] | { value: string }[] },
+  }: { name: string; value: string | string[] },
 ) {
   const params = new URLSearchParams(searchParams.toString());
   params.delete(name);
