@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CreateCarForm } from "@/app/cars/[slug]/_components/CreateCarForm";
 import { Spinner } from "@/components/ui/spinner";
+
+export const metadata: Metadata = {
+  title: "Přidat nové auto | Carvago",
+  description: "Vytvořte nový inzerát auta v administraci Carvago.",
+};
 
 export default function NewCarPage() {
   return (
