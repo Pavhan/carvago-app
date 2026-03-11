@@ -1,6 +1,16 @@
-import { Card } from "@/components/ui/card";
+import { Card } from '@/components/ui/card';
 
 export function CarDetailSkeleton() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <CarDetailSkeletonItem />
+      <CarDetailSkeletonItem />
+      <CarDetailSkeletonItem />
+    </div>
+  );
+}
+
+function CarDetailSkeletonItem() {
   return (
     <Card className="h-full overflow-hidden p-4 animate-pulse @container">
       <div className="grid grid-cols-1 gap-6 @md:grid-cols-[50%_1fr]">

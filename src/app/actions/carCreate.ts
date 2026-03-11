@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { db } from "@/drizzle/db";
-import { cars } from "@/drizzle/schema";
-import { createSlug } from "@/helpers/createSlug";
-import { createCarSchema } from "@/lib/validations/car";
+import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { db } from '@/drizzle/db';
+import { cars } from '@/drizzle/schema';
+import { createSlug } from '@/helpers/createSlug';
+import { createCarSchema } from '@/lib/validations/car';
 
 export type CreateCarActionState = {
   message?: string;
@@ -18,16 +18,16 @@ export async function createCarAction(
   formData: FormData,
 ): Promise<CreateCarActionState> {
   const parsed = createCarSchema.safeParse({
-    name: formData.get("name"),
-    imageUrl: formData.get("imageUrl"),
-    transmission: formData.get("transmission"),
-    fuelType: formData.get("fuelType"),
-    price: formData.get("price"),
+    name: formData.get('name'),
+    imageUrl: formData.get('imageUrl'),
+    transmission: formData.get('transmission'),
+    fuelType: formData.get('fuelType'),
+    price: formData.get('price'),
   });
 
   if (!parsed.success) {
     return {
-      message: "Formulář obsahuje chyby.",
+      message: 'Formulář obsahuje chyby.',
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }
@@ -56,7 +56,6 @@ export async function createCarAction(
     slug: uniqueSlug,
   });
 
-  revalidatePath("/");
-  revalidatePath("/cars");
+  revalidatePath('/');
   redirect(`/cars/${uniqueSlug}`);
 }

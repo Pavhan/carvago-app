@@ -9,6 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { createQueryString } from '@/lib/createQueryString';
+import type { Route } from 'next';
 
 type FormFieldSelectOption = {
   label: string;
@@ -40,7 +43,10 @@ export function FormFieldSelect({
   required = false,
   id,
 }: FormFieldSelectProps) {
-  const fieldId = id ?? name;
+  const fieldId = id ?? name ?? `${label}-select`;
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   return (
     <div className="space-y-2">
@@ -50,7 +56,17 @@ export function FormFieldSelect({
       <Select
         defaultValue={defaultValue}
         name={name}
-        onValueChange={onValueChange}
+        onValueChange={(value) => {
+          onValueChange?.(value);
+          console.log('Selected value:', value);
+          if (!name) return;
+          router.push(
+            createQueryString(searchParams, {
+              name: name,
+              value: value,
+            }) as Route,
+          );
+        }}
         required={required}
         value={value}
       >
