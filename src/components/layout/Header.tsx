@@ -11,13 +11,13 @@ export function Header() {
             <Link href="/" className="pt-1">
               <Image
                 alt="Carvago logo"
-                src="https://carvago.com/_next/static/media/logo-carvago.bbdeea53.svg"
+                src="/logo-carvago.svg"
                 width={136}
                 height={30}
               />
             </Link>
           </div>
-          <Button asChild className="primary">
+          <Button asChild className="primary" size="lg">
             <Link href="/cars/new">Přidat auto</Link>
           </Button>
         </div>
