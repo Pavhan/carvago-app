@@ -1,12 +1,11 @@
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { BackButton } from '@/components/BackButton';
-import { getCarBySlug } from '@/lib/cars';
-import { CarDetailContent } from './_components/CarDetailContent';
-import { CarDetailSkeleton } from './_components/CarDetailSkeleton';
-import { CarUpdatedToast } from './_components/CarUpdatedToast';
-
-export { generateMetadata } from './generateMetadata';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { BackButton } from "@/components/BackButton";
+import { getCarBySlug } from "@/lib/cars";
+import { CarDetailContent } from "./_components/CarDetailContent";
+import { CarDetailSkeleton } from "./_components/CarDetailSkeleton";
+import { CarUpdatedToast } from "./_components/CarUpdatedToast";
 
 async function CarDetailContentLoader({ slug }: { slug: string }) {
   const car = await getCarBySlug(slug);
@@ -17,6 +16,11 @@ async function CarDetailContentLoader({ slug }: { slug: string }) {
 
   return <CarDetailContent car={car} variant="detail" />;
 }
+
+export const metadata: Metadata = {
+  title: "Detail auta | Carvago",
+  description: "Detail vozidla v administraci Carvago.",
+};
 
 export default async function CarDetailPage({
   params,

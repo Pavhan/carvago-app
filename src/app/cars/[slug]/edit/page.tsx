@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { EditCarForm } from "@/app/cars/[slug]/_components/EditCarForm";
 import { BackButton } from "@/components/BackButton";
 import { getCarBySlug } from "@/lib/cars";
+
+export const metadata: Metadata = {
+  title: "Upravit auto | Carvago",
+  description: "Upravte detail vozidla v administraci Carvago.",
+};
 
 export default async function CarEditPage({
   params,
