@@ -65,10 +65,8 @@ export function CarFormFields({
         defaultValue={defaultValues?.price}
         error={fieldErrors?.price?.[0]}
         label="Cena (Kč)"
-        min={1}
         name="price"
         required
-        step={1}
         type="number"
       />
     </div>
