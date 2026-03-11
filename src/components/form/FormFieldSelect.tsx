@@ -1,25 +1,25 @@
-import type { Route } from 'next';
-import { useRouter, useSearchParams } from 'next/navigation';
-import type { ComponentProps } from 'react';
-import { FormLabel } from '@/components/form/FormLabel';
-import { Field } from '@/components/ui/field';
+import type { Route } from "next";
+import { useRouter, useSearchParams } from "next/navigation";
+
+import { FormLabel } from "@/components/form/FormLabel";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { createQueryString } from '@/lib/createQueryString';
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxValue,
+} from "@/components/ui/combobox";
+import { Field } from "@/components/ui/field";
+import { createQueryString } from "@/lib/createQueryString";
 
 type FormFieldSelectOption = {
   label: string;
   value: string;
 };
-
-type SelectProps = ComponentProps<typeof Select>;
 
 type FormFieldSelectProps = {
   label: string;
@@ -27,10 +27,12 @@ type FormFieldSelectProps = {
   options: FormFieldSelectOption[];
   error?: string;
   id?: string;
-} & Pick<
-  SelectProps,
-  'defaultValue' | 'name' | 'onValueChange' | 'required' | 'value'
->;
+  defaultValue?: string[];
+  name?: string;
+  onValueChange?: (value: string[]) => void;
+  required?: boolean;
+  value?: string[];
+};
 
 export function FormFieldSelect({
   label,
@@ -39,6 +41,7 @@ export function FormFieldSelect({
   options,
   defaultValue,
   value,
+  onValueChange,
   error,
   required = false,
   id,
@@ -48,42 +51,71 @@ export function FormFieldSelect({
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const selectedValues = value ?? defaultValue ?? [];
+
   return (
     <Field>
       <FormLabel htmlFor={fieldId} required={required}>
         {label}
       </FormLabel>
-      <Select
+      <Combobox
         defaultValue={defaultValue}
+        items={options.map((option) => option.value)}
+        multiple
         name={name}
-        onValueChange={(value) => {
-          console.log('Selected value:', value);
+        onValueChange={(nextValue) => {
+          if (!Array.isArray(nextValue)) return;
+
+          onValueChange?.(nextValue);
+
           if (!name) return;
+
           router.push(
             createQueryString(searchParams, {
-              name: name,
-              value: value,
+              name,
+              value: nextValue,
             }) as Route,
           );
         }}
         required={required}
         value={value}
       >
-        <SelectTrigger className="w-full" id={fieldId}>
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>{label}</SelectLabel>
-            {options.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+        <ComboboxChips className="w-full">
+          <ComboboxValue>
+            {selectedValues.map((selectedValue) => {
+              const option = options.find(
+                (optionItem) => optionItem.value === selectedValue,
+              );
+              if (!option) return null;
+
+              return (
+                <ComboboxChip key={option.value} value={option.value}>
+                  {option.label}
+                </ComboboxChip>
+              );
+            })}
+          </ComboboxValue>
+          <ComboboxChipsInput id={fieldId} placeholder={placeholder} />
+        </ComboboxChips>
+        <ComboboxContent>
+          <ComboboxEmpty>No items found.</ComboboxEmpty>
+          <ComboboxList>
+            {(item) => {
+              const option = options.find(
+                (optionItem) => optionItem.value === item,
+              );
+              if (!option) return null;
+
+              return (
+                <ComboboxItem key={option.value} value={option.value}>
+                  {option.label}
+                </ComboboxItem>
+              );
+            }}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+      {error ? <p className="text-sm text-red-600">{error}</p> : null}
     </Field>
   );
 }

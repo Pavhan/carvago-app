@@ -1,4 +1,24 @@
-import type { ReadonlyURLSearchParams } from 'next/navigation';
+import type { ReadonlyURLSearchParams } from "next/navigation";
+
+function normalizeFilterValues(
+  value: string | string[] | { value: string }[],
+): string[] {
+  const rawValues = Array.isArray(value)
+    ? value.map((item) => {
+        return typeof item === "string" ? item : item.value;
+      })
+    : [value];
+
+  const values = rawValues
+    .flatMap((item) => {
+      return item.split(",").map((part) => {
+        return part.trim();
+      });
+    })
+    .filter((item) => item.length > 0);
+
+  return Array.from(new Set(values));
+}
 
 export function createQueryString(
   searchParams: ReadonlyURLSearchParams,
@@ -10,28 +30,11 @@ export function createQueryString(
   const params = new URLSearchParams(searchParams.toString());
   params.delete(name);
 
-  let values: string[];
-  if (Array.isArray(value)) {
-    if (
-      value.length > 0 &&
-      typeof value[0] === 'object' &&
-      'value' in value[0]
-    ) {
-      values = (value as { value: string }[]).map((item) => {
-        return item.value;
-      });
-    } else {
-      values = value as string[];
-    }
-  } else {
-    values = [value];
+  const values = normalizeFilterValues(value);
+
+  if (values.length > 0) {
+    params.set(name, values.join(","));
   }
 
-  values.forEach((v) => {
-    if (v && v.trim()) {
-      params.append(name, v);
-    }
-  });
-
-  return '?' + params.toString();
+  return `?${params.toString()}`;
 }

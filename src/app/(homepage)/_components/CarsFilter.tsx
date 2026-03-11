@@ -1,6 +1,5 @@
 'use client';
 
-import { ALL_FILTER_OPTION } from '@/components/form/const';
 import { FormFieldSelect } from '@/components/form/FormFieldSelect';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -13,25 +12,15 @@ type CarsFilterProps = {
   activeFilters: CarsFilters;
 };
 
-const transmissionSelectOptions = [
-  ALL_FILTER_OPTION,
-  ...TRANSMISSION_FILTER_OPTIONS,
-];
-
-const fuelSelectOptions = [ALL_FILTER_OPTION, ...FUEL_FILTER_OPTIONS];
-
-function getSelectedFilterValue(value: string | string[] | undefined) {
-  if (typeof value === 'string') return value;
-  if (Array.isArray(value)) return value[0];
-  return undefined;
+function toMultiValue(value: string | string[] | undefined) {
+  if (!value) return [];
+  const values = Array.isArray(value) ? value : [value];
+  return values.flatMap((item) => item.split(',')).filter(Boolean);
 }
 
 export function CarsFilter({ activeFilters }: CarsFilterProps) {
-  const transmissionValue =
-    getSelectedFilterValue(activeFilters.transmission) ??
-    ALL_FILTER_OPTION.value;
-  const fuelTypeValue =
-    getSelectedFilterValue(activeFilters.fuelType) ?? ALL_FILTER_OPTION.value;
+  const transmissionValues = toMultiValue(activeFilters.transmission);
+  const fuelTypeValues = toMultiValue(activeFilters.fuelType);
 
   return (
     <div className="space-y-5">
@@ -39,31 +28,25 @@ export function CarsFilter({ activeFilters }: CarsFilterProps) {
         Filtrovat podle
       </h2>
 
-      <Card className="border-0 bg-white/90 shadow-sm backdrop-blur p-0">
+      <Card className="overflow-visible p-0">
         <CardContent className="p-5">
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2">
             <FormFieldSelect
               id="transmission-filter"
               label="Převodovka"
               name="transmission"
-              options={transmissionSelectOptions}
-              placeholder={ALL_FILTER_OPTION.label}
-              value={
-                getSelectedFilterValue(activeFilters.transmission) ??
-                ALL_FILTER_OPTION.value
-              }
+              options={[...TRANSMISSION_FILTER_OPTIONS]}
+              placeholder="Vyber převodovku"
+              value={transmissionValues}
             />
 
             <FormFieldSelect
               id="fuel-type-filter"
               label="Palivo"
               name="fuelType"
-              options={fuelSelectOptions}
-              placeholder={ALL_FILTER_OPTION.label}
-              value={
-                getSelectedFilterValue(activeFilters.fuelType) ??
-                ALL_FILTER_OPTION.value
-              }
+              options={[...FUEL_FILTER_OPTIONS]}
+              placeholder="Vyber palivo"
+              value={fuelTypeValues}
             />
           </div>
         </CardContent>

@@ -1,11 +1,11 @@
-import { and, desc, eq, inArray } from 'drizzle-orm';
-import { db } from '@/drizzle/db';
-import { cars } from '@/drizzle/schema';
-import { sleep } from '@/helpers/sleep';
+import { and, desc, eq, inArray } from "drizzle-orm";
+import { db } from "@/drizzle/db";
+import { cars } from "@/drizzle/schema";
+import { sleep } from "@/helpers/sleep";
 import {
   FUEL_FILTER_VALUE_TO_LABEL,
   TRANSMISSION_FILTER_VALUE_TO_LABEL,
-} from '@/lib/car-options';
+} from "@/lib/car-options";
 
 export type CarsFilters = {
   transmission?: string | string[];
@@ -22,15 +22,24 @@ const FUEL_FILTER_MAP: Record<string, string | undefined> = {
   ...FUEL_FILTER_VALUE_TO_LABEL,
 };
 
+function normalizeFilterValues(value: string | string[] | undefined): string[] {
+  const values = Array.isArray(value) ? value : value ? [value] : [];
+
+  return values
+    .flatMap((item) => item.split(","))
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0);
+}
+
 function processFilterValues(
   value: string | string[] | undefined,
   map: Record<string, string | undefined>,
 ): string[] | undefined {
-  const values = Array.isArray(value) ? value : value ? [value] : [];
-  const mapped = values
-    .map((v) => map[v.toLocaleLowerCase('cs-CZ')])
+  const mapped = normalizeFilterValues(value)
+    .map((v) => map[v.toLocaleLowerCase("cs-CZ")])
     .filter((v): v is string => v !== undefined);
-  return mapped.length > 0 ? mapped : undefined;
+
+  return mapped.length > 0 ? Array.from(new Set(mapped)) : undefined;
 }
 
 export async function getCars(filters?: CarsFilters) {

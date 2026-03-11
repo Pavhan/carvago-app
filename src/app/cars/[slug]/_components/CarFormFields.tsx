@@ -19,6 +19,10 @@ type CarFormFieldsProps = {
   defaultValues?: CarFormValues;
 };
 
+function toDefaultMultiValue(value?: string) {
+  return value ? [value] : undefined;
+}
+
 export function CarFormFields({
   fieldErrors,
   defaultValues,
@@ -42,7 +46,7 @@ export function CarFormFields({
       />
 
       <FormFieldSelect
-        defaultValue={defaultValues?.transmission}
+        defaultValue={toDefaultMultiValue(defaultValues?.transmission)}
         error={fieldErrors?.transmission?.[0]}
         label="Převodovka"
         name="transmission"
@@ -52,7 +56,7 @@ export function CarFormFields({
       />
 
       <FormFieldSelect
-        defaultValue={defaultValues?.fuelType}
+        defaultValue={toDefaultMultiValue(defaultValues?.fuelType)}
         error={fieldErrors?.fuelType?.[0]}
         label="Palivo"
         name="fuelType"

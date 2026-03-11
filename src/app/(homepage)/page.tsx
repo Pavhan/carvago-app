@@ -7,7 +7,7 @@ export default async function Home({ searchParams }: PageProps<'/'>) {
   const carList = await getCars(params);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="space-y-4">
       <CarsFilter activeFilters={params} />
       <CarsWithSearch cars={carList} />
     </div>
