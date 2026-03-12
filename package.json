@@ -14,7 +14,8 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "tsx src/drizzle/seed.ts"
+    "db:seed": "tsx src/drizzle/seed.ts",
+    "hooks:install": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.0",
