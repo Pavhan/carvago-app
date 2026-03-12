@@ -36,12 +36,8 @@ export function CarsFilter({
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-2xl font-semibold" data-testid="cars-heading">
-          Filtrovat podle
-        </h2>
-
-        {hasActiveFilters ? (
+      {hasActiveFilters ? (
+        <div className="flex justify-end">
           <Button variant="destructive" size="sm" asChild>
             <Link
               href="/"
@@ -52,8 +48,8 @@ export function CarsFilter({
               zrušit filter
             </Link>
           </Button>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
 
       <Card className="overflow-visible p-0">
         <CardContent className="p-5">

@@ -8,7 +8,7 @@ test("filters cars by transmission/fuel and supports reset", async ({ page }) =>
     timeout: 60_000,
   });
 
-  await expect(page.getByTestId("cars-heading")).toBeVisible();
+  await expect(page.getByTestId("car-card").first()).toBeVisible();
 
   const cards = page.getByTestId("car-card");
   const count = await cards.count();

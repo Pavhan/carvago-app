@@ -3,8 +3,8 @@ import { expect, test } from "@playwright/test";
 test("car detail back navigation", async ({ page }) => {
   await page.goto("/");
 
-  // Ověř heading
-  await expect(page.getByTestId("cars-heading")).toBeVisible();
+  // Ověř listing
+  await expect(page.getByTestId("car-card").first()).toBeVisible();
 
   // Vyber konkrétní auto — ne první náhodné
   const firstCar = page.getByTestId("car-card").first();
@@ -31,5 +31,5 @@ test("car detail back navigation", async ({ page }) => {
 
   // Ověř návrat
   await expect(page).toHaveURL("/");
-  await expect(page.getByTestId("cars-heading")).toBeVisible();
+  await expect(page.getByTestId("car-card").first()).toBeVisible();
 });
