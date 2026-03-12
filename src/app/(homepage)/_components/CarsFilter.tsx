@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { FormFieldMultiselectSelect } from '@/components/form/FormFieldMultiselectSelect';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   FUEL_FILTER_OPTIONS,
@@ -10,8 +12,8 @@ import type { CarsFilters } from '@/lib/cars';
 
 type CarsFilterProps = {
   activeFilters: CarsFilters;
-  filteredCarsCount: number;
-  totalCarsCount: number;
+  search: string;
+  onResetSearch: (value: string) => void;
 };
 
 function toMultiValue(value: string | string[] | undefined) {
@@ -22,11 +24,15 @@ function toMultiValue(value: string | string[] | undefined) {
 
 export function CarsFilter({
   activeFilters,
-  filteredCarsCount,
-  totalCarsCount,
+  search,
+  onResetSearch,
 }: CarsFilterProps) {
   const transmissionValues = toMultiValue(activeFilters.transmission);
   const fuelTypeValues = toMultiValue(activeFilters.fuelType);
+  const hasActiveFilters =
+    transmissionValues.length > 0 ||
+    fuelTypeValues.length > 0 ||
+    search.trim().length > 0;
 
   return (
     <div className="space-y-5">
@@ -34,9 +40,19 @@ export function CarsFilter({
         <h2 className="text-2xl font-semibold" data-testid="cars-heading">
           Filtrovat podle
         </h2>
-        <p className="text-sm text-muted-foreground">
-          nalezeno aut {filteredCarsCount} z celkových {totalCarsCount}
-        </p>
+
+        {hasActiveFilters ? (
+          <Button variant="destructive" size="sm" asChild>
+            <Link
+              href="/"
+              onClick={() => {
+                onResetSearch('');
+              }}
+            >
+              zrušit filter
+            </Link>
+          </Button>
+        ) : null}
       </div>
 
       <Card className="overflow-visible p-0">

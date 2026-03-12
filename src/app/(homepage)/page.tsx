@@ -1,28 +1,15 @@
-import type { Metadata } from "next";
-import { CarsFilter } from "@/app/(homepage)/_components/CarsFilter";
-import { getCars, getCarsCount } from "@/lib/cars";
-import { CarsWithSearch } from "./_components/CarsWithSearch";
+import type { Metadata } from 'next';
+import { HomePageContent } from '@/app/(homepage)/_components/HomePageContent';
+import { getCars, getCarsCount } from '@/lib/cars';
 
 export const metadata: Metadata = {
-  title: "Carvago | Přehled aut",
-  description: "Prohlédněte si nabídku dostupných aut na Carvago.",
+  title: 'Carvago | Přehled aut',
+  description: 'Prohlédněte si nabídku dostupných aut na Carvago.',
 };
 
-export default async function Home({ searchParams }: PageProps<"/">) {
+export default async function Home({ searchParams }: PageProps<'/'>) {
   const params = await searchParams;
-  const [carList, totalCarsCount] = await Promise.all([
-    getCars(params),
-    getCarsCount(),
-  ]);
+  const carList = await getCars(params);
 
-  return (
-    <div className="space-y-4">
-      <CarsFilter
-        activeFilters={params}
-        filteredCarsCount={carList.length}
-        totalCarsCount={totalCarsCount}
-      />
-      <CarsWithSearch cars={carList} />
-    </div>
-  );
+  return <HomePageContent activeFilters={params} cars={carList} />;
 }

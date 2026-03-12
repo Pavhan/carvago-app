@@ -2,7 +2,7 @@
 
 import { SearchIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Suspense, useDeferredValue, useState, useTransition } from 'react';
+import { Suspense, useDeferredValue, useTransition } from 'react';
 import { CarsResult } from '@/app/(homepage)/_components/CarsResult';
 import { CarDetailSkeletonList } from '@/app/cars/[slug]/_components/CarDetailSkeleton';
 import { Field, FieldLabel } from '@/components/ui/field';
@@ -11,19 +11,20 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from '@/components/ui/input-group';
-import { LoadingButton } from '@/components/ui/loading-button';
 import type { Car } from '@/drizzle/schema';
 
 type CarsWithSearchProps = {
   cars: Car[];
+  search: string;
+  onSearchChange: (value: string) => void;
 };
 
-export function CarsWithSearch({ cars }: CarsWithSearchProps) {
-  const [search, setSearch] = useState('');
+export function CarsWithSearch({
+  cars,
+  search,
+  onSearchChange,
+}: CarsWithSearchProps) {
   const deferredSearch = useDeferredValue(search);
-  const router = useRouter();
-  const hasSearchValue = search.trim().length > 0;
-  const [isPending, startTransition] = useTransition();
 
   return (
     <div className="space-y-4">
@@ -40,28 +41,9 @@ export function CarsWithSearch({ cars }: CarsWithSearchProps) {
             value={search}
             placeholder="Např. Audi, Tesla..."
             onChange={(e) => {
-              setSearch(e.currentTarget.value);
+              onSearchChange(e.currentTarget.value);
             }}
           />
-          {hasSearchValue ? (
-            <InputGroupAddon className="pr-1">
-              <LoadingButton
-                onClick={() => {
-                  setSearch('');
-                  startTransition(() => {
-                    router.push('/?');
-                  });
-                }}
-                loading={isPending}
-                size="sm"
-                type="button"
-                variant="ghost"
-              >
-                <X width={16} height={16} aria-hidden="true" />
-                Clear
-              </LoadingButton>
-            </InputGroupAddon>
-          ) : null}
         </InputGroup>
       </Field>
 
