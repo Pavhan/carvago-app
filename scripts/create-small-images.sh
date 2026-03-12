@@ -29,6 +29,6 @@ while IFS= read -r -d '' input_file; do
 
   echo "Creating: $output_file"
   ffmpeg -hide_banner -loglevel error -i "$input_file" -vf scale=20:-1 "$output_file"
-done < <(find "$images_dir" -path "$output_dir" -prune -o -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) -print0)
+done < <(find "$images_dir" -path "$output_dir" -prune -o -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.avif' \) -print0)
 
 echo "Done."
