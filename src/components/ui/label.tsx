@@ -2,11 +2,15 @@ import type * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-type LabelProps = Omit<React.ComponentProps<"label">, "htmlFor"> & {
+type LabelProps = Omit<
+  React.ComponentProps<"label">,
+  "children" | "htmlFor"
+> & {
+  children: React.ReactNode;
   htmlFor: string;
 };
 
-function Label({ className, htmlFor, ...props }: LabelProps) {
+function Label({ children, className, htmlFor, ...props }: LabelProps) {
   return (
     <label
       data-slot="label"
@@ -16,7 +20,9 @@ function Label({ className, htmlFor, ...props }: LabelProps) {
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+    </label>
   );
 }
 

@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type BackButtonProps = {
   href: string;
@@ -11,7 +11,7 @@ type BackButtonProps = {
 
 export function BackButton({
   href,
-  label = 'Zpět',
+  label = "Zpět",
   className,
 }: BackButtonProps) {
   return (

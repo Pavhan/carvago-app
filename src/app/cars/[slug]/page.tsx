@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { BackButton } from '@/components/BackButton';
-import { getCarBySlug } from '@/lib/cars';
-import { CarDetailContent } from './_components/CarDetailContent';
-import { CarDetailSkeleton } from './_components/CarDetailSkeleton';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { BackButton } from "@/components/BackButton";
+import { getCarBySlug } from "@/lib/cars";
+import { CarDetailContent } from "./_components/CarDetailContent";
+import { CarDetailSkeleton } from "./_components/CarDetailSkeleton";
 
 export const metadata: Metadata = {
-  title: 'Detail auta | Carvago',
-  description: 'Detail vozidla v administraci Carvago.',
+  title: "Detail auta | Carvago",
+  description: "Detail vozidla v administraci Carvago.",
 };
 
 export default async function CarDetailPage({

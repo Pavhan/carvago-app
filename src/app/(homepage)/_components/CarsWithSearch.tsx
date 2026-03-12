@@ -1,17 +1,16 @@
-'use client';
+"use client";
 
-import { SearchIcon, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { Suspense, useDeferredValue, useTransition } from 'react';
-import { CarsResult } from '@/app/(homepage)/_components/CarsResult';
-import { CarDetailSkeletonList } from '@/app/cars/[slug]/_components/CarDetailSkeleton';
-import { Field, FieldLabel } from '@/components/ui/field';
+import { SearchIcon } from "lucide-react";
+import { Suspense, useDeferredValue } from "react";
+import { CarsResult } from "@/app/(homepage)/_components/CarsResult";
+import { CarDetailSkeletonList } from "@/app/cars/[slug]/_components/CarDetailSkeleton";
+import { Field, FieldLabel } from "@/components/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from '@/components/ui/input-group';
-import type { Car } from '@/drizzle/schema';
+} from "@/components/ui/input-group";
+import type { Car } from "@/drizzle/schema";
 
 type CarsWithSearchProps = {
   cars: Car[];

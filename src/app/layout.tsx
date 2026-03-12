@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Geist } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Toaster } from "@/components/ui/sonner";
-import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const euclidCircularB = localFont({
   src: "../../public/fonts/euclid-circular-b/Euclid-Circular-B-Regular.ttf",

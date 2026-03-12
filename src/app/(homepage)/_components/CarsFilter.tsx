@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { FormFieldMultiselectSelect } from '@/components/form/FormFieldMultiselectSelect';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import Link from "next/link";
+import { FormFieldMultiselectSelect } from "@/components/form/FormFieldMultiselectSelect";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   FUEL_FILTER_OPTIONS,
   TRANSMISSION_FILTER_OPTIONS,
-} from '@/lib/car-options';
-import type { CarsFilters } from '@/lib/cars';
+} from "@/lib/car-options";
+import type { CarsFilters } from "@/lib/cars";
 
 type CarsFilterProps = {
   activeFilters: CarsFilters;
@@ -19,7 +19,7 @@ type CarsFilterProps = {
 function toMultiValue(value: string | string[] | undefined) {
   if (!value) return [];
   const values = Array.isArray(value) ? value : [value];
-  return values.flatMap((item) => item.split(',')).filter(Boolean);
+  return values.flatMap((item) => item.split(",")).filter(Boolean);
 }
 
 export function CarsFilter({
@@ -46,7 +46,7 @@ export function CarsFilter({
             <Link
               href="/"
               onClick={() => {
-                onResetSearch('');
+                onResetSearch("");
               }}
             >
               zrušit filter

@@ -1,6 +1,6 @@
-import type { Route } from 'next';
-import { useRouter } from 'next/navigation';
-import { FormLabel } from '@/components/form/FormLabel';
+import type { Route } from "next";
+import { useRouter } from "next/navigation";
+import { FormLabel } from "@/components/form/FormLabel";
 import {
   Combobox,
   ComboboxChip,
@@ -11,10 +11,10 @@ import {
   ComboboxItem,
   ComboboxList,
   ComboboxValue,
-} from '@/components/ui/combobox';
-import { Field } from '@/components/ui/field';
-import type { CarsFilters } from '@/lib/cars';
-import { createQueryString } from '@/lib/createQueryString';
+} from "@/components/ui/combobox";
+import { Field } from "@/components/ui/field";
+import type { CarsFilters } from "@/lib/cars";
+import { createQueryString } from "@/lib/createQueryString";
 
 type FormFieldMultiselectSelectOption = {
   label: string;

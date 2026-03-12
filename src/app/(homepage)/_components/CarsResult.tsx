@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { CarDetailContent } from '@/app/cars/[slug]/_components/CarDetailContent';
+import { CarDetailContent } from "@/app/cars/[slug]/_components/CarDetailContent";
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from '@/components/ui/empty';
-import type { Car } from '@/drizzle/schema';
+} from "@/components/ui/empty";
+import type { Car } from "@/drizzle/schema";
 
 type CarsResultProps = {
   items: Car[];

@@ -1,6 +1,6 @@
-import { env } from '@/data/env/server';
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import { env } from "@/data/env/server";
 
 const sql = neon(env.DATABASE_URL);
 

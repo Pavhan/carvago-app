@@ -1,7 +1,7 @@
-import type { ComponentProps } from 'react';
-import { FormLabel } from '@/components/form/FormLabel';
-import { Field } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
+import type { ComponentProps } from "react";
+import { FormLabel } from "@/components/form/FormLabel";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 type InputProps = ComponentProps<typeof Input>;
 
@@ -12,13 +12,13 @@ type FormFieldProps = {
   name: string;
 } & Pick<
   InputProps,
-  'defaultValue' | 'onChange' | 'placeholder' | 'required' | 'type' | 'value'
+  "defaultValue" | "onChange" | "placeholder" | "required" | "type" | "value"
 >;
 
 export function FormField({
   label,
   name,
-  type = 'text',
+  type = "text",
   error,
   required = false,
   defaultValue,

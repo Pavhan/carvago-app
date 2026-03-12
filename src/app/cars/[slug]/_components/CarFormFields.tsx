@@ -2,9 +2,9 @@ import {
   FUEL_OPTIONS,
   TRANSMISSION_OPTIONS,
   toSelectOptions,
-} from '@/components/form/const';
-import { FormField } from '@/components/form/FormField';
-import { FormFieldSimpleSelect } from '@/components/form/FormFieldSimpleSelect';
+} from "@/components/form/const";
+import { FormField } from "@/components/form/FormField";
+import { FormFieldSimpleSelect } from "@/components/form/FormFieldSimpleSelect";
 
 export type CarFormValues = {
   name: string;

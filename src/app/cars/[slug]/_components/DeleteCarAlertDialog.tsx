@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Trash2 } from 'lucide-react';
-import { deleteCar } from '@/app/actions/carDelete';
+import { Trash2 } from "lucide-react";
+import { deleteCar } from "@/app/actions/carDelete";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,8 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 type DeleteCarAlertDialogProps = {
   id: number;

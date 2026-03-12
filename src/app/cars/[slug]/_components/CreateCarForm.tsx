@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useActionState } from 'react';
+import Link from "next/link";
+import { useActionState } from "react";
 import {
   type CreateCarActionState,
   createCarAction,
-} from '@/app/actions/carCreate';
-import { Card, CardContent } from '@/components/ui/card';
-import { LoadingButton } from '@/components/ui/loading-button';
-import { CarFormFields } from './CarFormFields';
+} from "@/app/actions/carCreate";
+import { Card, CardContent } from "@/components/ui/card";
+import { LoadingButton } from "@/components/ui/loading-button";
+import { CarFormFields } from "./CarFormFields";
 
 const initialState: CreateCarActionState = {};
 
@@ -18,7 +18,7 @@ export function CreateCarForm() {
   return (
     <Card>
       <CardContent className="pt-6">
-        <form action={formAction} noValidate className='space-y-4'>
+        <form action={formAction} noValidate className="space-y-4">
           <CarFormFields fieldErrors={state.fieldErrors} />
 
           {state.message && (

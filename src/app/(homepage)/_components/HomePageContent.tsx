@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { CarsFilter } from '@/app/(homepage)/_components/CarsFilter';
-import { CarsWithSearch } from '@/app/(homepage)/_components/CarsWithSearch';
-import type { Car } from '@/drizzle/schema';
-import type { CarsFilters } from '@/lib/cars';
+import { useState } from "react";
+import { CarsFilter } from "@/app/(homepage)/_components/CarsFilter";
+import { CarsWithSearch } from "@/app/(homepage)/_components/CarsWithSearch";
+import type { Car } from "@/drizzle/schema";
+import type { CarsFilters } from "@/lib/cars";
 
 type HomePageContentProps = {
   activeFilters: CarsFilters;
@@ -12,7 +12,7 @@ type HomePageContentProps = {
 };
 
 export function HomePageContent({ activeFilters, cars }: HomePageContentProps) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   return (
     <div className="space-y-4">
