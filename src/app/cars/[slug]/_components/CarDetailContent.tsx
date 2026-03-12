@@ -11,13 +11,19 @@ import { DeleteCarAlertDialog } from "./DeleteCarAlertDialog";
 type CarDetailContentProps = {
   car: Car;
   variant: "detail" | "list";
+  index?: number;
 };
 
 export function CarDetailContent({
   car,
   variant = "list",
+  index,
 }: CarDetailContentProps) {
   const isDetailVariant = variant === "detail";
+  const imageLoadingType =
+    variant === "list" && typeof index === "number" && index > 6
+      ? "lazy"
+      : "eager";
 
   const content = (
     <Card
@@ -27,7 +33,7 @@ export function CarDetailContent({
       <div className="grid gap-6 grid-cols-1 @md:grid-cols-[50%_1fr]">
         <CarDetailImage
           alt={car.name}
-          loading={isDetailVariant ? "eager" : "lazy"}
+          loading={isDetailVariant ? "eager" : imageLoadingType}
           sizes="(min-width: 1024px) 50vw, 100vw"
           src={car.imageUrl}
           wrapperClassName="h-64 rounded-md bg-neutral-200/80 lg:min-h-64 lg:h-full"

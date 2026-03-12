@@ -39,8 +39,8 @@ export function CarsResult({ items, search }: CarsResultProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {filteredCars.map((car) => (
-        <CarDetailContent key={car.id} car={car} variant="list" />
+      {filteredCars.map((car, index) => (
+        <CarDetailContent key={car.id} car={car} variant="list" index={index} />
       ))}
     </div>
   );
