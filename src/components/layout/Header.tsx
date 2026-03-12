@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { OfflineCacheToggle } from "@/components/layout/OfflineCacheToggle";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
@@ -20,7 +19,6 @@ export function Header() {
             </Link>
           </div>
           <div className="flex items-center gap-4">
-            <OfflineCacheToggle />
             <Button asChild className="primary" size="lg">
               <Link href="/cars/new">Přidat auto</Link>
             </Button>
