@@ -10,6 +10,8 @@ import {
 } from "@/lib/car-options";
 import type { CarsFilters } from "@/lib/cars";
 
+
+//  CarsFilterProps je typ pro props CarsFilter komponenty
 type CarsFilterProps = {
   activeFilters: CarsFilters;
   search: string;
